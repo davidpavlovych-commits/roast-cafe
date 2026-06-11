@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roast - Café | Premium Specialty Coffee Online-Shop</title>
+  <meta name="description" content="ROAST – CAFÉ: Schonend geröstete Spezialitätenkaffees aus nachhaltigem Anbau. Direkt gehandelt, handwerklich veredelt in unserer Rösterei in Düsseldorf. Jetzt online bestellen." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════ -->
+  <header id="site-header" role="banner">
+    <div class="header-inner">
+
+      <a href="#hero" class="logo" id="logo" aria-label="ROAST – CAFÉ Startseite">
+        ROAST – CAFÉ
+      </a>
+
+      <nav id="main-nav" aria-label="Hauptnavigation">
+        <ul class="nav-list" role="list">
+          <li><a href="#kollektion" class="nav-link" id="nav-kollektion">Kollektion</a></li>
+          <li><a href="#story"      class="nav-link" id="nav-story">Unsere Story</a></li>
+          <li><a href="#zubereitung" class="nav-link" id="nav-zubereitung">Zubereitung</a></li>
+        </ul>
+      </nav>
+
+      <button
+        id="cart-toggle-btn"
+        class="cart-btn"
+        aria-label="Warenkorb öffnen"
+        aria-expanded="false"
+        aria-controls="cart-drawer"
+      >
+        <span class="cart-label">Warenkorb</span>
+        <span class="cart-badge" id="cart-badge" aria-live="polite">[ 0 ]</span>
+      </button>
+
+      <button
+        id="mobile-menu-btn"
+        class="mobile-menu-btn"
+        aria-label="Menü öffnen"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════ -->
+  <main id="main-content">
+
+    <!-- ─── HERO ─────────────────────────────── -->
+    <section id="hero" aria-labelledby="hero-headline">
+      <div class="hero-grid-overlay" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <p class="hero-category-label">ORIGIN &amp; CRAFT</p>
+
+        <h1 id="hero-headline" class="hero-headline">
+          KAFFEE NEU<br />DEFINIERT.
+        </h1>
+
+        <p class="hero-subheadline">
+          Schonend geröstete Spezialitätenkaffees aus nachhaltigem Anbau.
+          Direkt gehandelt, handwerklich veredelt in unserer Rösterei in
+          Düsseldorf. Erlebe Kaffeekultur in ihrer reinsten Form.
+        </p>
+
+        <a href="#kollektion" id="hero-cta-btn" class="btn btn--primary" role="button">
+          Kollektion entdecken
+        </a>
+      </div>
+
+      <p class="hero-coords" aria-hidden="true">
+        LAT: 51.2277° N | LON: 6.7735° E | ROAST-LEVEL: OPTIMAL
+      </p>
+    </section>
+
+    <!-- ─── KOLLEKTION ────────────────────────── -->
+    <section id="kollektion" aria-labelledby="kollektion-heading">
+      <div class="section-inner">
+
+        <header class="section-header">
+          <h2 id="kollektion-heading" class="section-title">Kollektion</h2>
+        </header>
+
+        <!-- Filter-Tabs -->
+        <div
+          id="filter-tabs"
+          class="filter-tabs"
+          role="tablist"
+          aria-label="Kaffee-Kategorien filtern"
+        >
+          <button
+            id="filter-all"
+            class="filter-tab filter-tab--active"
+            role="tab"
+            aria-selected="true"
+            data-filter="all"
+          >Alle Kaffees</button>
+          <button
+            id="filter-espresso"
+            class="filter-tab"
+            role="tab"
+            aria-selected="false"
+            data-filter="espresso"
+          >Espresso</button>
+          <button
+            id="filter-filterkaffee"
+            class="filter-tab"
+            role="tab"
+            aria-selected="false"
+            data-filter="filterkaffee"
+          >Filterkaffee</button>
+          <button
+            id="filter-decaf"
+            class="filter-tab"
+            role="tab"
+            aria-selected="false"
+            data-filter="decaf"
+          >Decaf / Limited</button>
+        </div>
+
+        <!-- Sort Dropdown -->
+        <div class="sort-bar">
+          <label for="sort-select" class="sort-label">Sortieren nach</label>
+          <select id="sort-select" class="sort-select" aria-label="Produkte sortieren">
+            <option value="default">Standard</option>
+            <option value="price-asc">Preis aufsteigend</option>
+            <option value="price-desc">Preis absteigend</option>
+            <option value="popularity">Beliebtheit</option>
+          </select>
+        </div>
+
+        <!-- Produkt-Grid -->
+        <div
+          id="product-grid"
+          class="product-grid"
+          role="list"
+          aria-label="Produktkatalog"
+          aria-live="polite"
+        >
+          <!-- Produkt-Karten werden via JS gerendert -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── STORY (Split-Layout) ──────────────────── -->
+    <section id="story" aria-labelledby="story-heading">
+      <div class="section-inner">
+
+        <div class="story-layout">
+
+          <!-- Linke Spalte: Visual -->
+          <div class="story-visual">
+            <div class="story-image-wrap">
+              <img
+                class="story-image"
+                src="assets/about_story.png"
+                alt="Probat-Trommelröster in der ROAST-Rösterei in Düsseldorf"
+                loading="lazy"
+              />
+              <div class="story-badge font-mono" aria-hidden="true">
+                <span class="story-badge-row">ALTITUDE: 1400 – 2100m ASL</span>
+                <span class="story-badge-row">ORIGIN: DIRECT TRADE</span>
+                <span class="story-badge-row">EST: 2026 // DÜSSELDORF</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rechte Spalte: Content & Säulen -->
+          <div class="story-content">
+            <header class="section-header">
+              <p class="story-eyebrow font-mono">// UNSERE STORY</p>
+              <h2 id="story-heading" class="section-title">VOM BECHER ZUR BOHNE.</h2>
+            </header>
+
+            <p class="story-intro">
+              Kaffee ist für uns kein schnelles Konsumgut, sondern ein Ritual.
+              Jede Bohne erzählt die Geschichte des Bodens, auf dem sie gewachsen
+              ist, und des Farmers, der sie gepflegt hat.
+            </p>
+
+            <ul class="story-pillars" role="list">
+
+              <li class="story-pillar" tabindex="0">
+                <span class="story-pillar-num font-mono">[ PILLAR I ]</span>
+                <h3 class="story-pillar-title">Direkt &amp; Fair</h3>
+                <p class="story-pillar-text">
+                  Wir importieren unsere Rohkaffees ohne Zwischenhändler und zahlen
+                  Preise weit über dem Fairtrade-Niveau – direkt an die Farmer.
+                </p>
+              </li>
+
+              <li class="story-pillar" tabindex="0">
+                <span class="story-pillar-num font-mono">[ PILLAR II ]</span>
+                <h3 class="story-pillar-title">Probat-Röstung</h3>
+                <p class="story-pillar-text">
+                  In Düsseldorf rösten wir in kleinen Chargen auf einem restaurierten
+                  Probat-Trommelröster – schonend und temperaturgeführt für feine
+                  Fruchtsäuren und süße Aromen.
+                </p>
+              </li>
+
+              <li class="story-pillar" tabindex="0">
+                <span class="story-pillar-num font-mono">[ PILLAR III ]</span>
+                <h3 class="story-pillar-title">Das Ritual</h3>
+                <p class="story-pillar-text">
+                  Vom Mahlen bis zum letzten Schluck: Wir verstehen Kaffee als
+                  sensorisches Erlebnis – einen bewussten Moment der Entschleunigung.
+                </p>
+              </li>
+
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── ZUBEREITUNG (Brewing Dashboard) ────────── -->
+    <section id="zubereitung" aria-labelledby="zubereitung-heading">
+      <div class="section-inner">
+        <header class="section-header brew-dash-header">
+          <div>
+            <p class="brew-dash-eyebrow font-mono">// BREW_DASHBOARD</p>
+            <h2 id="zubereitung-heading" class="section-title">Zubereitung</h2>
+          </div>
+          <p class="brew-dash-status font-mono">
+            <span class="brew-status-dot" aria-hidden="true"></span>SYSTEM&nbsp;BEREIT · 3&nbsp;PROFILE
+          </p>
+        </header>
+
+        <div class="brew-dash">
+
+          <!-- Panel 01: Siebträger -->
+          <article class="brew-panel" tabindex="0" style="--ratio-pos: 14%; --brew-fill: 100%;">
+            <span class="brew-index font-mono" aria-hidden="true">01</span>
+
+            <div class="brew-panel-id">
+              <span class="brew-method-type font-mono">ESPRESSO</span>
+              <h3 class="brew-method-title">Siebträger</h3>
+              <p class="brew-method-note font-mono">RATIO 1:2</p>
+            </div>
+
+            <dl class="brew-readout font-mono">
+              <div class="brew-cell"><dt>KAFFEE</dt><dd>18<span>g</span></dd></div>
+              <div class="brew-cell"><dt>WASSER</dt><dd>36<span>g</span></dd></div>
+              <div class="brew-cell"><dt>TEMP</dt><dd>93<span>°C</span></dd></div>
+              <div class="brew-cell"><dt>ZEIT</dt><dd>25<span>s</span></dd></div>
+            </dl>
+
+            <div class="brew-graphics">
+              <div class="brew-spec-row font-mono">
+                <span>EXTRAKTIONSDRUCK: 9 BAR</span>
+                <span>MAHLGRAD: EXTRA FEIN</span>
+              </div>
+
+              <!-- Ratio-Skala -->
+              <div class="brew-ratio" aria-label="Verhältnis Kaffee zu Wasser 1:2">
+                <span class="brew-ratio-cap font-mono">KAFFEE</span>
+                <div class="brew-ratio-track"><span class="brew-ratio-dot"></span></div>
+                <span class="brew-ratio-cap font-mono">WASSER</span>
+              </div>
+
+              <!-- Extraktions-Profil -->
+              <div class="brew-extraction" aria-hidden="true">
+                <div class="brew-bars">
+                  <i style="--h:20%"></i><i style="--h:55%"></i><i style="--h:85%"></i><i style="--h:100%"></i><i style="--h:92%"></i><i style="--h:78%"></i><i style="--h:64%"></i><i style="--h:50%"></i><i style="--h:40%"></i><i style="--h:30%"></i><i style="--h:22%"></i><i style="--h:16%"></i>
+                </div>
+                <span class="brew-extraction-cap font-mono">EXTRAKTIONS-PROFIL</span>
+              </div>
+
+              <!-- Brühzeit-Balken -->
+              <div class="brew-time">
+                <div class="brew-time-head font-mono">
+                  <span>BRÜHZEIT</span><span class="brew-time-val">00:25</span>
+                </div>
+                <div class="brew-time-track"><span class="brew-time-fill"></span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Panel 02: V60 Filter -->
+          <article class="brew-panel" tabindex="0" style="--ratio-pos: 84%; --brew-fill: 100%;">
+            <span class="brew-index font-mono" aria-hidden="true">02</span>
+
+            <div class="brew-panel-id">
+              <span class="brew-method-type font-mono">FILTERKAFFEE</span>
+              <h3 class="brew-method-title">V60 Filter</h3>
+              <p class="brew-method-note font-mono">RATIO 1:16</p>
+            </div>
+
+            <dl class="brew-readout font-mono">
+              <div class="brew-cell"><dt>KAFFEE</dt><dd>15<span>g</span></dd></div>
+              <div class="brew-cell"><dt>WASSER</dt><dd>250<span>g</span></dd></div>
+              <div class="brew-cell"><dt>TEMP</dt><dd>94<span>°C</span></dd></div>
+              <div class="brew-cell"><dt>ZEIT</dt><dd>2:30<span>m</span></dd></div>
+            </dl>
+
+            <div class="brew-graphics">
+              <div class="brew-spec-row font-mono">
+                <span>BLOOMING: 40 SEKUNDEN</span>
+                <span>MAHLGRAD: MEDIUM-FEIN</span>
+              </div>
+
+              <div class="brew-ratio" aria-label="Verhältnis Kaffee zu Wasser 1:16">
+                <span class="brew-ratio-cap font-mono">KAFFEE</span>
+                <div class="brew-ratio-track"><span class="brew-ratio-dot"></span></div>
+                <span class="brew-ratio-cap font-mono">WASSER</span>
+              </div>
+
+              <div class="brew-extraction" aria-hidden="true">
+                <div class="brew-bars">
+                  <i style="--h:15%"></i><i style="--h:30%"></i><i style="--h:48%"></i><i style="--h:66%"></i><i style="--h:80%"></i><i style="--h:92%"></i><i style="--h:100%"></i><i style="--h:90%"></i><i style="--h:74%"></i><i style="--h:55%"></i><i style="--h:38%"></i><i style="--h:24%"></i>
+                </div>
+                <span class="brew-extraction-cap font-mono">EXTRAKTIONS-PROFIL</span>
+              </div>
+
+              <div class="brew-time">
+                <div class="brew-time-head font-mono">
+                  <span>BRÜHZEIT</span><span class="brew-time-val">02:30</span>
+                </div>
+                <div class="brew-time-track"><span class="brew-time-fill"></span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Panel 03: AeroPress -->
+          <article class="brew-panel" tabindex="0" style="--ratio-pos: 58%; --brew-fill: 100%;">
+            <span class="brew-index font-mono" aria-hidden="true">03</span>
+
+            <div class="brew-panel-id">
+              <span class="brew-method-type font-mono">IMMERSION</span>
+              <h3 class="brew-method-title">AeroPress</h3>
+              <p class="brew-method-note font-mono">RATIO 1:12</p>
+            </div>
+
+            <dl class="brew-readout font-mono">
+              <div class="brew-cell"><dt>KAFFEE</dt><dd>16<span>g</span></dd></div>
+              <div class="brew-cell"><dt>WASSER</dt><dd>200<span>g</span></dd></div>
+              <div class="brew-cell"><dt>TEMP</dt><dd>88<span>°C</span></dd></div>
+              <div class="brew-cell"><dt>ZEIT</dt><dd>2:00<span>m</span></dd></div>
+            </dl>
+
+            <div class="brew-graphics">
+              <div class="brew-spec-row font-mono">
+                <span>IMMERSION: 90 SEKUNDEN</span>
+                <span>MAHLGRAD: MEDIUM</span>
+              </div>
+
+              <div class="brew-ratio" aria-label="Verhältnis Kaffee zu Wasser 1:12">
+                <span class="brew-ratio-cap font-mono">KAFFEE</span>
+                <div class="brew-ratio-track"><span class="brew-ratio-dot"></span></div>
+                <span class="brew-ratio-cap font-mono">WASSER</span>
+              </div>
+
+              <div class="brew-extraction" aria-hidden="true">
+                <div class="brew-bars">
+                  <i style="--h:25%"></i><i style="--h:45%"></i><i style="--h:62%"></i><i style="--h:75%"></i><i style="--h:85%"></i><i style="--h:90%"></i><i style="--h:100%"></i><i style="--h:95%"></i><i style="--h:82%"></i><i style="--h:60%"></i><i style="--h:42%"></i><i style="--h:28%"></i>
+                </div>
+                <span class="brew-extraction-cap font-mono">EXTRAKTIONS-PROFIL</span>
+              </div>
+
+              <div class="brew-time">
+                <div class="brew-time-head font-mono">
+                  <span>BRÜHZEIT</span><span class="brew-time-val">02:00</span>
+                </div>
+                <div class="brew-time-track"><span class="brew-time-fill"></span></div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer id="site-footer" role="contentinfo">
+    <div class="footer-inner">
+
+      <div class="newsletter-block">
+        <h2 class="newsletter-title">FRISCHE RÖSTUNGEN IN DEINEM POSTFACH</h2>
+        <p class="newsletter-sub">
+          Melde dich an, um exklusive Angebote und Benachrichtigungen über
+          limitierte Chargen zu erhalten.
+        </p>
+        <form id="newsletter-form" class="newsletter-form" novalidate aria-label="Newsletter anmelden">
+          <label for="newsletter-email" class="visually-hidden">Deine E-Mail-Adresse</label>
+          <input
+            id="newsletter-email"
+            type="email"
+            name="email"
+            class="newsletter-input"
+            placeholder="Deine E-Mail-Adresse"
+            autocomplete="email"
+            required
+          />
+          <button id="newsletter-submit-btn" type="submit" class="btn btn--primary">
+            Abonnieren
+          </button>
+        </form>
+        <p id="newsletter-success" class="newsletter-success" role="status" aria-live="polite" hidden>
+          ✓ Danke für deine Anmeldung!
+        </p>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 ROAST - CAFÉ. Alle Rechte vorbehalten.</p>
+        <nav aria-label="Rechtliche Links">
+          <ul class="footer-links" role="list">
+            <li><button id="link-impressum"   class="footer-link-btn" data-legal="impressum">Impressum</button></li>
+            <li><button id="link-datenschutz" class="footer-link-btn" data-legal="datenschutz">Datenschutz</button></li>
+            <li><button id="link-agb"         class="footer-link-btn" data-legal="agb">AGB &amp; Widerruf</button></li>
+          </ul>
+        </nav>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       OVERLAYS
+  ═══════════════════════════════════════════ -->
+
+  <!-- Backdrop (shared) -->
+  <div id="overlay-backdrop" class="overlay-backdrop" aria-hidden="true"></div>
+
+  <!-- ─── WARENKORB DRAWER ───────────────────── -->
+  <aside
+    id="cart-drawer"
+    class="cart-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Warenkorb"
+    aria-hidden="true"
+  >
+    <div class="cart-drawer-inner">
+
+      <header class="cart-drawer-header">
+        <h2 id="cart-drawer-title" class="cart-drawer-title">DEIN EINKAUFSWAGEN</h2>
+        <button
+          id="cart-close-btn"
+          class="close-btn"
+          aria-label="Warenkorb schließen"
+        >✕</button>
+      </header>
+
+      <!-- Leerzustand -->
+      <div id="cart-empty-state" class="cart-empty-state" hidden>
+        <p class="cart-empty-text">
+          Dein Warenkorb ist aktuell leer. Füge Kaffees aus unserer Kollektion hinzu.
+        </p>
+      </div>
+
+      <!-- Artikel-Liste -->
+      <ul id="cart-items-list" class="cart-items-list" role="list" aria-label="Warenkorb-Artikel"></ul>
+
+      <!-- Zusammenfassung -->
+      <div id="cart-summary" class="cart-summary">
+        <p id="cart-shipping-info" class="cart-shipping-info" aria-live="polite"></p>
+
+        <div class="cart-totals">
+          <div class="cart-totals-row">
+            <span class="cart-totals-label">Zwischensumme:</span>
+            <span id="cart-subtotal" class="cart-totals-value font-mono">€ 0,00</span>
+          </div>
+          <div class="cart-totals-row">
+            <span class="cart-totals-label">Versand:</span>
+            <span id="cart-shipping-cost" class="cart-totals-value font-mono">4,90 €</span>
+          </div>
+          <div class="cart-totals-row cart-totals-row--total">
+            <span class="cart-totals-label">Gesamtsumme:</span>
+            <span id="cart-total" class="cart-totals-value font-mono">€ 4,90</span>
+          </div>
+        </div>
+
+        <button id="checkout-open-btn" class="btn btn--primary btn--full">
+          Zur Kasse gehen
+        </button>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- ─── PRODUKT-DETAIL MODAL ──────────────── -->
+  <div
+    id="product-modal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="product-modal-title"
+    aria-hidden="true"
+  >
+    <div class="modal-inner modal-inner--product">
+
+      <button
+        id="product-modal-close-btn"
+        class="close-btn close-btn--modal"
+        aria-label="Produktdetails schließen"
+      >✕</button>
+
+      <div class="product-modal-layout">
+
+        <!-- Bild -->
+        <div class="product-modal-image-wrap">
+          <img
+            id="product-modal-image"
+            class="product-modal-image"
+            src=""
+            alt=""
+          />
+        </div>
+
+        <!-- Details -->
+        <div class="product-modal-details">
+          <p id="product-modal-origin" class="product-modal-origin"></p>
+          <h2 id="product-modal-title" class="product-modal-title"></h2>
+          <p id="product-modal-flavor" class="product-modal-flavor"></p>
+          <p id="product-modal-price" class="product-modal-price font-mono"></p>
+          <p id="product-modal-description" class="product-modal-description"></p>
+
+          <!-- Packungsgröße -->
+          <div class="product-modal-option">
+            <label for="product-modal-size" class="option-label">Packungsgröße wählen:</label>
+            <select id="product-modal-size" class="option-select">
+              <option value="250">250g (Standard)</option>
+              <option value="500">500g (+ 95% Preis)</option>
+              <option value="1000">1000g (+ 180% Preis)</option>
+            </select>
+          </div>
+
+          <!-- Mahlgrad -->
+          <fieldset class="product-modal-option" id="product-modal-grind-group">
+            <legend class="option-label">Mahlgrad wählen:</legend>
+            <div class="grind-options">
+              <label class="grind-option">
+                <input type="radio" name="grind" id="grind-ganze-bohne" value="ganze-bohne" checked />
+                <span>Ganze Bohne</span>
+              </label>
+              <label class="grind-option">
+                <input type="radio" name="grind" id="grind-filter" value="filter" />
+                <span>Gemahlen (Filter)</span>
+              </label>
+              <label class="grind-option">
+                <input type="radio" name="grind" id="grind-espresso" value="espresso" />
+                <span>Gemahlen (Espresso Siebträger)</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Menge -->
+          <div class="product-modal-option quantity-wrap">
+            <span class="option-label">Menge:</span>
+            <div class="quantity-control" role="group" aria-label="Menge anpassen">
+              <button id="product-modal-qty-minus" class="qty-btn" aria-label="Menge verringern">−</button>
+              <output id="product-modal-qty-display" class="qty-display" aria-live="polite">1</output>
+              <button id="product-modal-qty-plus"  class="qty-btn" aria-label="Menge erhöhen">+</button>
+            </div>
+          </div>
+
+          <button id="product-modal-add-btn" class="btn btn--primary btn--full">
+            In den Warenkorb legen
+          </button>
+          <p id="product-modal-success" class="add-success" role="status" aria-live="polite" hidden>
+            ✓ Erfolgreich hinzugefügt!
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CHECKOUT MODAL ───────────────────── -->
+  <div
+    id="checkout-modal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="checkout-modal-title"
+    aria-hidden="true"
+  >
+    <div class="modal-inner modal-inner--checkout">
+
+      <button
+        id="checkout-modal-close-btn"
+        class="close-btn close-btn--modal"
+        aria-label="Checkout schließen"
+      >✕</button>
+
+      <!-- ── Checkout-Formular ── -->
+      <section id="checkout-form-section" aria-label="Bestellformular">
+        <h2 id="checkout-modal-title" class="checkout-title">SCHNELL-CHECKOUT</h2>
+
+        <div class="checkout-layout">
+
+          <!-- Spalte 1: Kontakt & Zahlung -->
+          <div class="checkout-col checkout-col--form">
+
+            <h3 class="checkout-section-title">1. Kontakt &amp; Versandadresse</h3>
+            <form id="checkout-form" class="checkout-form" novalidate>
+
+              <div class="form-group">
+                <label for="checkout-email" class="form-label">Email-Adresse<span aria-hidden="true">*</span></label>
+                <input id="checkout-email" type="email" name="email" class="form-input" placeholder="name@beispiel.de" autocomplete="email" required />
+                <span id="checkout-email-error" class="form-error" role="alert" hidden></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="checkout-firstname" class="form-label">Vorname<span aria-hidden="true">*</span></label>
+                  <input id="checkout-firstname" type="text" name="firstname" class="form-input" placeholder="Max" autocomplete="given-name" required />
+                </div>
+                <div class="form-group">
+                  <label for="checkout-lastname" class="form-label">Nachname<span aria-hidden="true">*</span></label>
+                  <input id="checkout-lastname" type="text" name="lastname" class="form-input" placeholder="Mustermann" autocomplete="family-name" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="checkout-street" class="form-label">Straße und Hausnummer<span aria-hidden="true">*</span></label>
+                <input id="checkout-street" type="text" name="street" class="form-input" placeholder="Kaffeestraße 12" autocomplete="street-address" required />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="checkout-zip" class="form-label">Postleitzahl<span aria-hidden="true">*</span></label>
+                  <input id="checkout-zip" type="text" name="zip" class="form-input" placeholder="40210" autocomplete="postal-code" required />
+                </div>
+                <div class="form-group">
+                  <label for="checkout-city" class="form-label">Stadt<span aria-hidden="true">*</span></label>
+                  <input id="checkout-city" type="text" name="city" class="form-input" placeholder="Düsseldorf" autocomplete="address-level2" required />
+                </div>
+              </div>
+
+              <h3 class="checkout-section-title">2. Zahlungsart</h3>
+
+              <div id="payment-method-group" class="payment-methods" role="radiogroup" aria-label="Zahlungsart auswählen">
+                <label class="payment-option">
+                  <input type="radio" name="payment" id="payment-creditcard" value="creditcard" checked />
+                  <span>Kreditkarte</span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="payment" id="payment-paypal" value="paypal" />
+                  <span>PayPal</span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="payment" id="payment-sofort" value="sofort" />
+                  <span>Sofortüberweisung</span>
+                </label>
+              </div>
+
+              <!-- Kreditkarten-Felder -->
+              <div id="creditcard-fields" class="creditcard-fields">
+                <div class="form-group">
+                  <label for="checkout-card-number" class="form-label">Kartennummer</label>
+                  <input id="checkout-card-number" type="text" name="card-number" class="form-input" placeholder="4111 2222 3333 4444" inputmode="numeric" autocomplete="cc-number" />
+                  <span id="checkout-card-error" class="form-error" role="alert" hidden></span>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="checkout-card-expiry" class="form-label">Gültig bis</label>
+                    <input id="checkout-card-expiry" type="text" name="card-expiry" class="form-input" placeholder="MM/JJ" autocomplete="cc-exp" />
+                  </div>
+                  <div class="form-group">
+                    <label for="checkout-card-cvc" class="form-label">CVC</label>
+                    <input id="checkout-card-cvc" type="text" name="card-cvc" class="form-input" placeholder="123" autocomplete="cc-csc" inputmode="numeric" />
+                  </div>
+                </div>
+              </div>
+
+              <span id="checkout-general-error" class="form-error form-error--general" role="alert" hidden></span>
+
+              <button id="checkout-submit-btn" type="submit" class="btn btn--primary btn--full checkout-submit-btn">
+                Jetzt zahlungspflichtig bestellen (<span id="checkout-total-display">0,00 €</span>)
+              </button>
+
+              <p class="checkout-security-hint">
+                🔒 Deine Verbindung ist SSL-verschlüsselt. Wir speichern keine Zahlungsdaten.
+              </p>
+
+            </form>
+          </div>
+
+          <!-- Spalte 2: Bestellübersicht -->
+          <aside class="checkout-col checkout-col--summary" aria-label="Bestellübersicht">
+            <h3 class="checkout-section-title">3. Bestellübersicht</h3>
+            <ul id="checkout-order-list" class="checkout-order-list" role="list"></ul>
+            <div class="checkout-totals">
+              <div class="checkout-totals-row">
+                <span>Versand:</span>
+                <span id="checkout-shipping-display" class="font-mono">4,90 €</span>
+              </div>
+              <div class="checkout-totals-row checkout-totals-row--total">
+                <span>Gesamtsumme:</span>
+                <span id="checkout-grand-total-display" class="font-mono">0,00 €</span>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </section>
+
+      <!-- ── Bestellbestätigung ── -->
+      <section id="order-confirmation" class="order-confirmation" aria-label="Bestellbestätigung" hidden>
+        <div class="confirmation-inner">
+          <div class="confirmation-icon" aria-hidden="true">✓</div>
+          <p class="confirmation-status">BESTELLUNG ERFOLGREICH</p>
+          <h2 class="confirmation-title">Vielen Dank für deine Bestellung bei ROAST – CAFÉ!</h2>
+          <p class="confirmation-order-label">Deine Bestellnummer lautet:</p>
+          <p id="confirmation-order-number" class="confirmation-order-number font-mono"></p>
+          <p class="confirmation-text">
+            Wir bereiten deine Kaffees frisch für den Versand vor. Du erhältst in Kürze eine
+            E-Mail mit deiner Sendungsverfolgungsnummer.
+          </p>
+          <button id="confirmation-close-btn" class="btn btn--primary">
+            Zurück zum Shop
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

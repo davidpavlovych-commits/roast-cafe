@@ -1,0 +1,4 @@
+[build]
+  publish = "."
+
+# Statische Single-Page-Site – kein Build-Schritt nötig.
