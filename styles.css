@@ -73,6 +73,17 @@ html {
   scroll-padding-top: var(--header-h);
 }
 
+/* Nichts darf die Seite seitlich verbreitern – mobile Browser würden sonst
+   den Viewport aufweiten und die Seite "schwimmen" lassen.
+   clip auf den Inhalts-Containern (nicht auf html/body: dort blockiert es in
+   Chrome das vertikale Scrollen); erzeugt keinen Scroll-Container. */
+body { overflow-x: hidden; }
+
+main,
+#site-footer {
+  overflow-x: clip;
+}
+
 body {
   font-family: var(--font-body);
   font-weight: 400;
@@ -80,7 +91,6 @@ body {
   color: var(--text-primary);
   line-height: 1.7;
   min-height: 100vh;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   /* Feiner Nebel statt Raster */
   background-image:
@@ -3167,6 +3177,10 @@ h1, h2, h3, h4 {
 
 @media (max-width: 860px) {
   :root { --header-h: 68px; --section-gap: 84px; }
+
+  /* Auf schmalen Screens von unten statt von der Seite einblenden */
+  [data-reveal="left"],
+  [data-reveal="right"] { transform: translateY(30px); }
 
   .header-inner { padding-inline: 16px; }
 
