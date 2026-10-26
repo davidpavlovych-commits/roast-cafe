@@ -139,7 +139,7 @@ function renderProducts(productsList) {
   }
 
   grid.innerHTML = productsList
-    .map((p) => {
+    .map((p, index) => {
       const limitedTag = p.limited
         ? '<span class="product-card-tag">Limited</span>'
         : '';
@@ -151,6 +151,7 @@ function renderProducts(productsList) {
           data-category="${p.category}"
           tabindex="0"
           aria-label="${p.name} – Details anzeigen"
+          style="--d: ${index * 70}ms"
         >
           <div class="product-card-image-wrap">
             <img
@@ -404,6 +405,73 @@ function initMobileNav() {
   });
 }
 
+/* ─── SCROLL-REVEAL (IntersectionObserver) ──────────────────── */
+function initScrollReveal() {
+  const els = document.querySelectorAll('[data-reveal]');
+  const grid = document.getElementById('product-grid');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Fallback: alles sofort sichtbar */
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    els.forEach((el) => el.classList.add('is-revealed'));
+    if (grid) grid.classList.add('in-view');
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add(
+          entry.target === grid ? 'in-view' : 'is-revealed'
+        );
+        io.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -48px 0px' }
+  );
+
+  els.forEach((el) => io.observe(el));
+  if (grid) io.observe(grid);
+}
+
+/* ─── HERO-PARALLAX ─────────────────────────────────────────── */
+function initHeroParallax() {
+  const hero = document.getElementById('hero');
+  const inner = document.querySelector('.hero-inner');
+  if (!hero || !inner) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  /* Nur auf breiten Viewports (zweispaltiges Hero-Layout) */
+  const wide = window.matchMedia('(min-width: 1021px)');
+
+  let ticking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (!wide.matches) {
+          inner.style.transform = '';
+          inner.style.opacity = '';
+        } else {
+          const y = window.scrollY;
+          const limit = hero.offsetHeight;
+          if (y <= limit) {
+            inner.style.transform = `translateY(${y * 0.12}px)`;
+            inner.style.opacity = String(
+              Math.max(0, 1 - y / (limit * 0.9))
+            );
+          }
+        }
+        ticking = false;
+      });
+    },
+    { passive: true }
+  );
+}
+
 /* ─── SCROLL-TRIGGER: HEADER ────────────────────────────────── */
 function initHeaderScroll() {
   const header = document.getElementById('site-header');
@@ -536,7 +604,14 @@ function getShippingCost(subtotal) {
 /* ─── RENDERING ─────────────────────────────────────────────── */
 function updateCartBadge() {
   const badge = document.getElementById('cart-badge');
-  if (badge) badge.textContent = `[ ${getCartCount()} ]`;
+  if (!badge) return;
+  const next = `[ ${getCartCount()} ]`;
+  if (badge.textContent === next) return;
+  badge.textContent = next;
+  /* Pop-Animation neu triggern */
+  badge.classList.remove('badge-pop');
+  void badge.offsetWidth;
+  badge.classList.add('badge-pop');
 }
 
 function renderCartItems() {
@@ -933,6 +1008,8 @@ function init() {
   initOverlayDismiss();
   initHeaderScroll();
   initMobileNav();
+  initScrollReveal();
+  initHeroParallax();
   updateCartUI();
 }
 
