@@ -7,10 +7,16 @@
   <meta name="description" content="ROAST – CAFÉ: Schonend geröstete Spezialitätenkaffees aus nachhaltigem Anbau. Direkt gehandelt, handwerklich veredelt in unserer Rösterei in Düsseldorf. Jetzt online bestellen." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+  <!-- Scroll-Fortschritt -->
+  <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
+
+  <!-- Cursor-Ring (nur Maus) -->
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
   <!-- ═══════════════════════════════════════════
        HEADER
@@ -18,38 +24,56 @@
   <header id="site-header" role="banner">
     <div class="header-inner">
 
-      <a href="#hero" class="logo" id="logo" aria-label="ROAST – CAFÉ Startseite">
-        ROAST – CAFÉ
+      <div class="header-left">
+        <button
+          id="mobile-menu-btn"
+          class="mobile-menu-btn"
+          aria-label="Menü öffnen"
+          aria-expanded="false"
+          aria-controls="main-nav"
+        >
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav id="main-nav" aria-label="Hauptnavigation" data-i18n-attr="aria-label: nav.aria">
+          <ul class="nav-list" role="list">
+            <li><a href="#kollektion"  class="nav-link" id="nav-kollektion"  data-i18n="nav.collection">Kollektion</a></li>
+            <li><a href="#story"       class="nav-link" id="nav-story"       data-i18n="nav.story">Unsere Story</a></li>
+            <li><a href="#prozess"     class="nav-link" id="nav-prozess"     data-i18n="nav.process">Prozess</a></li>
+            <li><a href="#zubereitung" class="nav-link" id="nav-zubereitung" data-i18n="nav.brewing">Zubereitung</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <a href="#hero" class="logo" id="logo" aria-label="ROAST – CAFÉ Startseite" data-i18n-attr="aria-label: logo.aria">
+        <span class="logo-mark" aria-hidden="true"></span>
       </a>
 
-      <nav id="main-nav" aria-label="Hauptnavigation">
-        <ul class="nav-list" role="list">
-          <li><a href="#kollektion" class="nav-link" id="nav-kollektion">Kollektion</a></li>
-          <li><a href="#story"      class="nav-link" id="nav-story">Unsere Story</a></li>
-          <li><a href="#zubereitung" class="nav-link" id="nav-zubereitung">Zubereitung</a></li>
-        </ul>
-      </nav>
+      <div class="header-right">
+        <!-- Sprachumschalter -->
+        <div class="lang-switch" role="group" aria-label="Sprache wählen" data-i18n-attr="aria-label: lang.aria">
+          <button type="button" class="lang-btn" data-lang="de" lang="de" aria-pressed="true" aria-label="Deutsch">DE</button>
+          <span class="lang-sep" aria-hidden="true">/</span>
+          <button type="button" class="lang-btn" data-lang="en" lang="en" aria-pressed="false" aria-label="English">EN</button>
+        </div>
 
-      <button
-        id="cart-toggle-btn"
-        class="cart-btn"
-        aria-label="Warenkorb öffnen"
-        aria-expanded="false"
-        aria-controls="cart-drawer"
-      >
-        <span class="cart-label">Warenkorb</span>
-        <span class="cart-badge" id="cart-badge" aria-live="polite">[ 0 ]</span>
-      </button>
-
-      <button
-        id="mobile-menu-btn"
-        class="mobile-menu-btn"
-        aria-label="Menü öffnen"
-        aria-expanded="false"
-        aria-controls="main-nav"
-      >
-        <span></span><span></span><span></span>
-      </button>
+        <button
+          id="cart-toggle-btn"
+          class="cart-btn"
+          aria-label="Warenkorb öffnen"
+          data-i18n-attr="aria-label: cart.open"
+          aria-expanded="false"
+          aria-controls="cart-drawer"
+        >
+          <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M3 4h2.2l2.1 10.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2L21 8H6.1" />
+            <circle cx="9.5" cy="19.5" r="1.3" />
+            <circle cx="17" cy="19.5" r="1.3" />
+          </svg>
+          <span class="cart-label" data-i18n="cart.label">Warenkorb</span>
+          <span class="cart-badge" id="cart-badge" aria-live="polite">[ 0 ]</span>
+        </button>
+      </div>
 
     </div>
   </header>
@@ -59,224 +83,197 @@
   ═══════════════════════════════════════════ -->
   <main id="main-content">
 
-    <!-- ─── HERO ─────────────────────────────── -->
+    <!-- ─── HERO: Orbit-Produktbühne ───────────── -->
     <section id="hero" aria-labelledby="hero-headline">
-      <div class="hero-grid-overlay" aria-hidden="true"></div>
+      <div class="hero-backdrop" aria-hidden="true"></div>
+      <div class="hero-fog hero-fog--a" aria-hidden="true"></div>
+      <div class="hero-fog hero-fog--b" aria-hidden="true"></div>
+      <canvas class="hero-dust" id="hero-dust" aria-hidden="true"></canvas>
 
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <p class="hero-category-label">ORIGIN &amp; CRAFT</p>
+      <div class="hero-content">
+        <p class="hero-category-label">Specialty Coffee · Düsseldorf</p>
 
-          <h1 id="hero-headline" class="hero-headline">
-            <span class="hero-line"><span class="hero-line-inner">KAFFEE NEU</span></span>
-            <span class="hero-line"><span class="hero-line-inner">DEFINIERT.</span></span>
-          </h1>
+        <h1 id="hero-headline" class="hero-headline">
+          <span class="hero-line"><span class="hero-line-inner" data-i18n="hero.line1">Selten im Anbau, vollendet im Geschmack,</span></span>
+          <span class="hero-line hero-line--sub"><span class="hero-line-inner" data-i18n="hero.line2">Intensives Aroma <em>&amp;</em> ausgewogener Charakter</span></span>
+        </h1>
 
-          <p class="hero-subheadline">
-            Schonend geröstete Spezialitätenkaffees aus nachhaltigem Anbau.
-            Direkt gehandelt, handwerklich veredelt in unserer Rösterei in
-            Düsseldorf. Erlebe Kaffeekultur in ihrer reinsten Form.
-          </p>
+        <div class="hero-stage" id="hero-stage">
+          <!-- Orbit -->
+          <svg class="orbit" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+            <circle class="orbit-ring" cx="200" cy="200" r="170" />
+            <circle class="orbit-ring orbit-ring--inner" cx="200" cy="200" r="132" />
+            <path class="orbit-arc" id="orbit-arc" pathLength="1" d="M200 30 A170 170 0 0 0 79.8 79.8" />
+          </svg>
 
-          <a href="#kollektion" id="hero-cta-btn" class="btn btn--primary" role="button">
-            Kollektion entdecken
-          </a>
-        </div>
-
-        <!-- Animierter Produktionsprozess -->
-        <div class="hero-process" role="img" aria-label="Produktionsprozess der Kaffeebohnen: Ernte, Trocknung, Röstung, Versand">
-          <div class="hero-process-head font-mono" aria-hidden="true">
-            <span>// PRODUKTIONS-PROZESS</span>
-            <span class="hero-process-live"><span class="live-dot"></span>LIVE</span>
+          <!-- Produkt-Scheibe (Bilder werden via JS gerendert) -->
+          <div class="hero-disc-wrap">
+            <div class="hero-disc" id="hero-disc"></div>
           </div>
 
-          <svg class="process-svg" viewBox="0 0 440 460" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <!-- Orbit-Beschriftungen (via JS) -->
+          <div class="orbit-labels" id="orbit-labels" role="group" aria-label="Kaffeesorte wählen" data-i18n-attr="aria-label: hero.choose"></div>
 
-            <!-- Prozess-Linie -->
-            <line class="proc-line" x1="56" y1="60" x2="56" y2="402" />
-            <line class="proc-line-flow" x1="56" y1="60" x2="56" y2="402" />
-
-            <!-- Wandernde Bohnen -->
-            <g class="proc-bean proc-bean--1">
-              <ellipse cx="56" cy="0" rx="4.5" ry="6.5" />
-              <path d="M56 -5 C 54.5 -2, 57.5 2, 56 5" />
-            </g>
-            <g class="proc-bean proc-bean--2">
-              <ellipse cx="56" cy="0" rx="4.5" ry="6.5" />
-              <path d="M56 -5 C 54.5 -2, 57.5 2, 56 5" />
-            </g>
-            <g class="proc-bean proc-bean--3">
-              <ellipse cx="56" cy="0" rx="4.5" ry="6.5" />
-              <path d="M56 -5 C 54.5 -2, 57.5 2, 56 5" />
-            </g>
-
-            <!-- Station 1: Ernte -->
-            <g class="proc-node" transform="translate(56,60)">
-              <circle class="proc-node-pulse" r="24" />
-              <circle class="proc-node-ring" r="24" />
-              <g class="icon-cherry">
-                <path class="i-stroke" d="M0 -12 C 3 -9, 4 -5, 3 -1" />
-                <path class="i-stroke" d="M0 -12 C -6 -11, -8 -6, -3 -5 C -1 -6, 0 -9, 0 -12 Z" />
-                <circle class="cherry-fruit" cx="-3" cy="5" r="4.4" />
-                <circle class="cherry-fruit" cx="6" cy="2" r="4.4" />
-              </g>
-            </g>
-            <g class="proc-label" transform="translate(104,60)">
-              <text class="proc-phase" y="-20">PHASE 01 // ERNTE</text>
-              <text class="proc-title" y="3">Handernte der Kirschen</text>
-              <text class="proc-desc" y="23">Nur vollreife Kaffeekirschen,</text>
-              <text class="proc-desc" y="39">gepflückt auf 1.400–2.100 m.</text>
-            </g>
-
-            <!-- Station 2: Trocknung -->
-            <g class="proc-node" transform="translate(56,174)">
-              <circle class="proc-node-pulse" r="24" />
-              <circle class="proc-node-ring" r="24" />
-              <g class="icon-sun">
-                <circle class="i-stroke" r="5.5" />
-                <g class="sun-rays">
-                  <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" />
-                  <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(45)" />
-                  <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(90)" />
-                  <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(135)" />
-                  <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(180)" />
-                  <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(225)" />
-                  <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(270)" />
-                  <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(315)" />
-                </g>
-              </g>
-            </g>
-            <g class="proc-label" transform="translate(104,174)">
-              <text class="proc-phase" y="-20">PHASE 02 // AUFBEREITUNG</text>
-              <text class="proc-title" y="3">Sonnentrocknung</text>
-              <text class="proc-desc" y="23">Bis zu 28 Tage auf African Beds,</text>
-              <text class="proc-desc" y="39">täglich von Hand gewendet.</text>
-            </g>
-
-            <!-- Station 3: Röstung -->
-            <g class="proc-node" transform="translate(56,288)">
-              <circle class="proc-node-pulse" r="24" />
-              <circle class="proc-node-ring" r="24" />
-              <g class="icon-drum">
-                <circle class="i-stroke" cy="-3" r="9.5" />
-                <g class="drum-blades">
-                  <line class="i-stroke" x1="-9.5" y1="-3" x2="9.5" y2="-3" />
-                  <line class="i-stroke" x1="-9.5" y1="-3" x2="9.5" y2="-3" transform="rotate(60 0 -3)" />
-                  <line class="i-stroke" x1="-9.5" y1="-3" x2="9.5" y2="-3" transform="rotate(120 0 -3)" />
-                </g>
-                <path class="i-flame" d="M0 16 C -3.5 12.5, -2.5 9.5, 0 8 C 2.5 9.5, 3.5 12.5, 0 16 Z" />
-              </g>
-            </g>
-            <g class="proc-label" transform="translate(104,288)">
-              <text class="proc-phase" y="-20">PHASE 03 // RÖSTUNG</text>
-              <text class="proc-title" y="3">Trommelröstung bei 212 °C</text>
-              <text class="proc-desc" y="23">Kleine 12-kg-Chargen, schonend</text>
-              <text class="proc-desc" y="39">und temperaturgeführt geröstet.</text>
-            </g>
-
-            <!-- Station 4: Versand -->
-            <g class="proc-node" transform="translate(56,402)">
-              <circle class="proc-node-pulse" r="24" />
-              <circle class="proc-node-ring" r="24" />
-              <g class="icon-cup">
-                <path class="i-stroke" d="M-8 -1 H7 V6 a4.5 4.5 0 0 1 -4.5 4.5 h-6 A4.5 4.5 0 0 1 -8 6 Z" />
-                <path class="i-stroke" d="M7 1 h2.5 a3.2 3.2 0 0 1 0 6.4 H7" />
-                <path class="i-steam s1" d="M-4 -5 c -1.5 -2, 1.5 -3.5, 0 -6" />
-                <path class="i-steam s2" d="M1.5 -5 c -1.5 -2, 1.5 -3.5, 0 -6" />
-              </g>
-            </g>
-            <g class="proc-label" transform="translate(104,402)">
-              <text class="proc-phase" y="-20">PHASE 04 // VERSAND</text>
-              <text class="proc-title" y="3">Frisch versiegelt</text>
-              <text class="proc-desc" y="23">Mit Aromaventil verpackt und</text>
-              <text class="proc-desc" y="39">innerhalb von 48 h geliefert.</text>
-            </g>
-
-          </svg>
+          <!-- Info zur aktiven Sorte -->
+          <div class="hero-info" id="hero-info" aria-live="polite">
+            <p class="hero-info-cat" id="hero-info-cat"></p>
+            <p class="hero-info-text" id="hero-info-text"></p>
+            <p class="hero-info-price" id="hero-info-price"></p>
+            <button type="button" class="hero-info-link" id="hero-info-link">
+              <span data-i18n="hero.more">Mehr erfahren</span> <span class="hero-info-arrow" aria-hidden="true">⟶</span>
+            </button>
+          </div>
         </div>
+
+        <div class="hero-meta" aria-hidden="true">
+          <span class="hero-count"><span id="hero-count-current">01</span> — <span id="hero-count-total">04</span></span>
+          <span class="hero-progress"><span id="hero-progress-bar"></span></span>
+        </div>
+
+        <a href="#story" class="hero-scroll" aria-label="Weiter zu Unsere Story" data-i18n-attr="aria-label: hero.scroll">
+          <span class="hero-scroll-line"></span>
+        </a>
       </div>
 
-      <p class="hero-coords" aria-hidden="true">
-        LAT: 51.2277° N | LON: 6.7735° E | ROAST-LEVEL: OPTIMAL
-      </p>
+      <button type="button" class="hero-arrow hero-arrow--prev" id="hero-prev" aria-label="Vorherige Sorte" data-i18n-attr="aria-label: hero.prev" data-magnetic>
+        <span aria-hidden="true">←</span>
+      </button>
+      <button type="button" class="hero-arrow hero-arrow--next" id="hero-next" aria-label="Nächste Sorte" data-i18n-attr="aria-label: hero.next" data-magnetic>
+        <span aria-hidden="true">→</span>
+      </button>
     </section>
 
-    <!-- ─── TICKER ────────────────────────────── -->
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker-track font-mono">
-        <div class="ticker-group">
-          <span>Direct Trade</span><span class="ticker-dot">●</span>
-          <span>Small Batch Roastery</span><span class="ticker-dot">●</span>
-          <span>Specialty Grade 86+</span><span class="ticker-dot">●</span>
-          <span>Est. 2026 Düsseldorf</span><span class="ticker-dot">●</span>
-          <span>Frisch geröstet</span><span class="ticker-dot">●</span>
-          <span>CO₂-neutraler Versand</span><span class="ticker-dot">●</span>
+    <!-- ─── STORY ───────────────────────────── -->
+    <section id="story" aria-labelledby="story-heading">
+      <div class="v-divider" data-reveal="line" aria-hidden="true"></div>
+
+      <div class="story-layout">
+        <div class="story-visual" data-reveal="left">
+          <img
+            class="story-image"
+            src="assets/about_story.png"
+            alt="Kaffeebauern sortieren Rohkaffeebohnen von Hand"
+            data-i18n-attr="alt: story.imgAlt"
+            loading="lazy"
+          />
         </div>
-        <div class="ticker-group">
-          <span>Direct Trade</span><span class="ticker-dot">●</span>
-          <span>Small Batch Roastery</span><span class="ticker-dot">●</span>
-          <span>Specialty Grade 86+</span><span class="ticker-dot">●</span>
-          <span>Est. 2026 Düsseldorf</span><span class="ticker-dot">●</span>
-          <span>Frisch geröstet</span><span class="ticker-dot">●</span>
-          <span>CO₂-neutraler Versand</span><span class="ticker-dot">●</span>
+
+        <div class="story-content">
+          <h2 id="story-heading" class="section-title story-title" data-split data-i18n="story.title">
+            <span class="gold">Mehr als Standard</span> – Kaffee, den wir selbst trinken wollen
+          </h2>
+          <p class="story-est" data-reveal style="--reveal-delay: 120ms;">Est. 2026</p>
+
+          <p class="story-intro" data-reveal style="--reveal-delay: 180ms;" data-i18n="story.intro">
+            Kaffee ist für uns kein schnelles Konsumgut, sondern ein Ritual.
+            Jede Bohne erzählt die Geschichte des Bodens, auf dem sie gewachsen
+            ist, und des Farmers, der sie gepflegt hat. Wir kaufen direkt, rösten
+            in kleinen Chargen und versenden nur, was wir selbst trinken würden.
+          </p>
+
+          <dl class="story-stats" data-reveal style="--reveal-delay: 240ms;">
+            <div class="story-stat">
+              <dt data-i18n="story.altitude">Anbauhöhe</dt>
+              <dd><span data-count="2100">0</span><small> m</small></dd>
+            </div>
+            <div class="story-stat">
+              <dt data-i18n="story.batch">Chargengröße</dt>
+              <dd><span data-count="12">0</span><small> kg</small></dd>
+            </div>
+            <div class="story-stat">
+              <dt data-i18n="story.fresh">Röstfrisch in</dt>
+              <dd><span data-count="48">0</span><small> h</small></dd>
+            </div>
+          </dl>
+
+          <ul class="story-pillars" role="list">
+            <li class="story-pillar" tabindex="0" data-reveal style="--reveal-delay: 120ms;">
+              <span class="story-pillar-num">I</span>
+              <div>
+                <h3 class="story-pillar-title" data-i18n="pillar1.title">Direkt &amp; Fair</h3>
+                <p class="story-pillar-text" data-i18n="pillar1.text">
+                  Rohkaffee ohne Zwischenhändler – zu Preisen weit über dem
+                  Fairtrade-Niveau, direkt an die Farmer.
+                </p>
+              </div>
+            </li>
+            <li class="story-pillar" tabindex="0" data-reveal style="--reveal-delay: 200ms;">
+              <span class="story-pillar-num">II</span>
+              <div>
+                <h3 class="story-pillar-title" data-i18n="pillar2.title">Probat-Röstung</h3>
+                <p class="story-pillar-text" data-i18n="pillar2.text">
+                  Kleine Chargen auf einem restaurierten Probat-Trommelröster –
+                  temperaturgeführt für feine Säuren und süße Aromen.
+                </p>
+              </div>
+            </li>
+            <li class="story-pillar" tabindex="0" data-reveal style="--reveal-delay: 280ms;">
+              <span class="story-pillar-num">III</span>
+              <div>
+                <h3 class="story-pillar-title" data-i18n="pillar3.title">Das Ritual</h3>
+                <p class="story-pillar-text" data-i18n="pillar3.text">
+                  Vom Mahlen bis zum letzten Schluck: ein bewusster Moment
+                  der Entschleunigung.
+                </p>
+              </div>
+            </li>
+          </ul>
+
+          <a href="#prozess" class="btn btn--ghost" data-reveal data-magnetic style="--reveal-delay: 320ms;" data-i18n="story.cta">Zum Prozess</a>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- ─── ZITAT ───────────────────────────── -->
+    <section id="zitat" class="quote-section" aria-label="Unser Anspruch" data-i18n-attr="aria-label: quote.aria">
+      <div class="v-divider" data-reveal="line" aria-hidden="true"></div>
+      <figure class="quote" data-reveal>
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <blockquote class="quote-text" data-i18n="quote.text">
+          ROAST – CAFÉ setzt den Maßstab dort an, wo andere aufhören:
+          <strong>bei der einzelnen Bohne.</strong>
+        </blockquote>
+      </figure>
+      <a href="#kollektion" class="btn btn--primary" data-reveal data-magnetic style="--reveal-delay: 150ms;" data-i18n="quote.cta">
+        Kollektion entdecken
+      </a>
+    </section>
 
     <!-- ─── KOLLEKTION ────────────────────────── -->
     <section id="kollektion" aria-labelledby="kollektion-heading">
       <div class="section-inner">
 
-        <header class="section-header" data-reveal>
-          <h2 id="kollektion-heading" class="section-title">Kollektion</h2>
+        <header class="section-header section-header--center">
+          <p class="eyebrow" data-reveal data-i18n="collection.eyebrow">Kollektion</p>
+          <h2 id="kollektion-heading" class="section-title" data-split data-i18n="collection.title">Unsere Röstungen</h2>
         </header>
 
-        <!-- Filter-Tabs -->
-        <div
-          id="filter-tabs"
-          class="filter-tabs"
-          role="tablist"
-          aria-label="Kaffee-Kategorien filtern"
-        >
-          <button
-            id="filter-all"
-            class="filter-tab filter-tab--active"
-            role="tab"
-            aria-selected="true"
-            data-filter="all"
-          >Alle Kaffees</button>
-          <button
-            id="filter-espresso"
-            class="filter-tab"
-            role="tab"
-            aria-selected="false"
-            data-filter="espresso"
-          >Espresso</button>
-          <button
-            id="filter-filterkaffee"
-            class="filter-tab"
-            role="tab"
-            aria-selected="false"
-            data-filter="filterkaffee"
-          >Filterkaffee</button>
-          <button
-            id="filter-decaf"
-            class="filter-tab"
-            role="tab"
-            aria-selected="false"
-            data-filter="decaf"
-          >Decaf / Limited</button>
-        </div>
+        <div class="catalog-bar" data-reveal>
+          <!-- Filter-Tabs -->
+          <div
+            id="filter-tabs"
+            class="filter-tabs"
+            role="tablist"
+            aria-label="Kaffee-Kategorien filtern"
+            data-i18n-attr="aria-label: filter.aria"
+          >
+            <button id="filter-all"          class="filter-tab filter-tab--active" role="tab" aria-selected="true"  data-filter="all"          data-i18n="filter.all">Alle Kaffees</button>
+            <button id="filter-espresso"     class="filter-tab" role="tab" aria-selected="false" data-filter="espresso"     data-i18n="filter.espresso">Espresso</button>
+            <button id="filter-filterkaffee" class="filter-tab" role="tab" aria-selected="false" data-filter="filterkaffee" data-i18n="filter.filter">Filterkaffee</button>
+            <button id="filter-decaf"        class="filter-tab" role="tab" aria-selected="false" data-filter="decaf"        data-i18n="filter.decaf">Decaf / Limited</button>
+            <span class="filter-indicator" id="filter-indicator" aria-hidden="true"></span>
+          </div>
 
-        <!-- Sort Dropdown -->
-        <div class="sort-bar">
-          <label for="sort-select" class="sort-label">Sortieren nach</label>
-          <select id="sort-select" class="sort-select" aria-label="Produkte sortieren">
-            <option value="default">Standard</option>
-            <option value="price-asc">Preis aufsteigend</option>
-            <option value="price-desc">Preis absteigend</option>
-            <option value="popularity">Beliebtheit</option>
-          </select>
+          <!-- Sort Dropdown -->
+          <div class="sort-bar">
+            <label for="sort-select" class="sort-label" data-i18n="sort.label">Sortieren nach</label>
+            <select id="sort-select" class="sort-select" aria-label="Produkte sortieren" data-i18n-attr="aria-label: sort.aria">
+              <option value="default"    data-i18n="sort.default">Standard</option>
+              <option value="price-asc"  data-i18n="sort.priceAsc">Preis aufsteigend</option>
+              <option value="price-desc" data-i18n="sort.priceDesc">Preis absteigend</option>
+              <option value="popularity" data-i18n="sort.popularity">Beliebtheit</option>
+            </select>
+          </div>
         </div>
 
         <!-- Produkt-Grid -->
@@ -285,6 +282,7 @@
           class="product-grid"
           role="list"
           aria-label="Produktkatalog"
+          data-i18n-attr="aria-label: grid.aria"
           aria-live="polite"
         >
           <!-- Produkt-Karten werden via JS gerendert -->
@@ -293,90 +291,159 @@
       </div>
     </section>
 
-    <!-- ─── STORY (Split-Layout) ──────────────────── -->
-    <section id="story" aria-labelledby="story-heading">
+    <!-- ─── PROZESS ───────────────────────────── -->
+    <section id="prozess" aria-labelledby="prozess-heading">
+      <div class="v-divider" data-reveal="line" aria-hidden="true"></div>
       <div class="section-inner">
+        <div class="process-layout">
 
-        <div class="story-layout">
-
-          <!-- Linke Spalte: Visual -->
-          <div class="story-visual" data-reveal="left">
-            <div class="story-image-wrap">
-              <img
-                class="story-image"
-                src="assets/about_story.png"
-                alt="Probat-Trommelröster in der ROAST-Rösterei in Düsseldorf"
-                loading="lazy"
-              />
-              <div class="story-badge font-mono" aria-hidden="true">
-                <span class="story-badge-row">ALTITUDE: 1400 – 2100m ASL</span>
-                <span class="story-badge-row">ORIGIN: DIRECT TRADE</span>
-                <span class="story-badge-row">EST: 2026 // DÜSSELDORF</span>
-              </div>
-            </div>
+          <div class="process-copy">
+            <p class="eyebrow" data-reveal data-i18n="process.eyebrow">Der Weg der Bohne</p>
+            <h2 id="prozess-heading" class="section-title" data-split data-i18n="process.title">Vom Strauch <span class="gold">in die Tasse</span></h2>
+            <p class="process-intro" data-reveal style="--reveal-delay: 120ms;" data-i18n="process.intro">
+              Vier Stationen, ein Anspruch: Jede Bohne wird von Hand geerntet,
+              in der Sonne getrocknet, in Düsseldorf geröstet und frisch zu dir
+              geschickt. Fahre über eine Station, um sie hervorzuheben.
+            </p>
+            <ol class="process-steps" id="process-steps" data-reveal style="--reveal-delay: 180ms;">
+              <li data-step="0" data-i18n="process.step0"><span>01</span> Ernte</li>
+              <li data-step="1" data-i18n="process.step1"><span>02</span> Aufbereitung</li>
+              <li data-step="2" data-i18n="process.step2"><span>03</span> Röstung</li>
+              <li data-step="3" data-i18n="process.step3"><span>04</span> Versand</li>
+            </ol>
           </div>
 
-          <!-- Rechte Spalte: Content & Säulen -->
-          <div class="story-content">
-            <header class="section-header" data-reveal="right">
-              <p class="story-eyebrow font-mono">// UNSERE STORY</p>
-              <h2 id="story-heading" class="section-title">VOM BECHER ZUR BOHNE.</h2>
-            </header>
+          <!-- Animierter Produktionsprozess -->
+          <div class="hero-process" data-reveal="right" role="img" aria-label="Produktionsprozess der Kaffeebohnen: Ernte, Trocknung, Röstung, Versand" data-i18n-attr="aria-label: process.aria">
+            <div class="hero-process-head" aria-hidden="true">
+              <span data-i18n="process.head">Produktions-Prozess</span>
+              <span class="hero-process-live"><span class="live-dot"></span><span data-i18n="process.live">Live</span></span>
+            </div>
 
-            <p class="story-intro" data-reveal="right" style="--reveal-delay: 90ms;">
-              Kaffee ist für uns kein schnelles Konsumgut, sondern ein Ritual.
-              Jede Bohne erzählt die Geschichte des Bodens, auf dem sie gewachsen
-              ist, und des Farmers, der sie gepflegt hat.
-            </p>
+            <svg class="process-svg" id="process-svg" viewBox="0 0 440 460" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 
-            <ul class="story-pillars" role="list">
+              <line class="proc-line" x1="56" y1="60" x2="56" y2="402" />
+              <line class="proc-line-flow" x1="56" y1="60" x2="56" y2="402" />
 
-              <li class="story-pillar" tabindex="0" data-reveal style="--reveal-delay: 120ms;">
-                <span class="story-pillar-num font-mono">[ PILLAR I ]</span>
-                <h3 class="story-pillar-title">Direkt &amp; Fair</h3>
-                <p class="story-pillar-text">
-                  Wir importieren unsere Rohkaffees ohne Zwischenhändler und zahlen
-                  Preise weit über dem Fairtrade-Niveau – direkt an die Farmer.
-                </p>
-              </li>
+              <g class="proc-bean proc-bean--1">
+                <ellipse cx="56" cy="0" rx="4.5" ry="6.5" />
+                <path d="M56 -5 C 54.5 -2, 57.5 2, 56 5" />
+              </g>
+              <g class="proc-bean proc-bean--2">
+                <ellipse cx="56" cy="0" rx="4.5" ry="6.5" />
+                <path d="M56 -5 C 54.5 -2, 57.5 2, 56 5" />
+              </g>
+              <g class="proc-bean proc-bean--3">
+                <ellipse cx="56" cy="0" rx="4.5" ry="6.5" />
+                <path d="M56 -5 C 54.5 -2, 57.5 2, 56 5" />
+              </g>
 
-              <li class="story-pillar" tabindex="0" data-reveal style="--reveal-delay: 220ms;">
-                <span class="story-pillar-num font-mono">[ PILLAR II ]</span>
-                <h3 class="story-pillar-title">Probat-Röstung</h3>
-                <p class="story-pillar-text">
-                  In Düsseldorf rösten wir in kleinen Chargen auf einem restaurierten
-                  Probat-Trommelröster – schonend und temperaturgeführt für feine
-                  Fruchtsäuren und süße Aromen.
-                </p>
-              </li>
+              <!-- Station 1: Ernte -->
+              <g class="proc-step" data-step="0">
+                <g class="proc-node" transform="translate(56,60)">
+                  <circle class="proc-node-pulse" r="24" />
+                  <circle class="proc-node-ring" r="24" />
+                  <g class="icon-cherry">
+                    <path class="i-stroke" d="M0 -12 C 3 -9, 4 -5, 3 -1" />
+                    <path class="i-stroke" d="M0 -12 C -6 -11, -8 -6, -3 -5 C -1 -6, 0 -9, 0 -12 Z" />
+                    <circle class="cherry-fruit" cx="-3" cy="5" r="4.4" />
+                    <circle class="cherry-fruit" cx="6" cy="2" r="4.4" />
+                  </g>
+                </g>
+                <g class="proc-label" transform="translate(104,60)">
+                  <text class="proc-phase" y="-20" data-i18n="proc1.phase">PHASE 01 · ERNTE</text>
+                  <text class="proc-title" y="3" data-i18n="proc1.title">Handernte der Kirschen</text>
+                  <text class="proc-desc" y="23" data-i18n="proc1.d1">Nur vollreife Kaffeekirschen,</text>
+                  <text class="proc-desc" y="39" data-i18n="proc1.d2">gepflückt auf 1.400–2.100 m.</text>
+                </g>
+              </g>
 
-              <li class="story-pillar" tabindex="0" data-reveal style="--reveal-delay: 320ms;">
-                <span class="story-pillar-num font-mono">[ PILLAR III ]</span>
-                <h3 class="story-pillar-title">Das Ritual</h3>
-                <p class="story-pillar-text">
-                  Vom Mahlen bis zum letzten Schluck: Wir verstehen Kaffee als
-                  sensorisches Erlebnis – einen bewussten Moment der Entschleunigung.
-                </p>
-              </li>
+              <!-- Station 2: Trocknung -->
+              <g class="proc-step" data-step="1">
+                <g class="proc-node" transform="translate(56,174)">
+                  <circle class="proc-node-pulse" r="24" />
+                  <circle class="proc-node-ring" r="24" />
+                  <g class="icon-sun">
+                    <circle class="i-stroke" r="5.5" />
+                    <g class="sun-rays">
+                      <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" />
+                      <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(45)" />
+                      <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(90)" />
+                      <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(135)" />
+                      <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(180)" />
+                      <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(225)" />
+                      <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(270)" />
+                      <line class="i-stroke" x1="0" y1="-9" x2="0" y2="-12" transform="rotate(315)" />
+                    </g>
+                  </g>
+                </g>
+                <g class="proc-label" transform="translate(104,174)">
+                  <text class="proc-phase" y="-20" data-i18n="proc2.phase">PHASE 02 · AUFBEREITUNG</text>
+                  <text class="proc-title" y="3" data-i18n="proc2.title">Sonnentrocknung</text>
+                  <text class="proc-desc" y="23" data-i18n="proc2.d1">Bis zu 28 Tage auf African Beds,</text>
+                  <text class="proc-desc" y="39" data-i18n="proc2.d2">täglich von Hand gewendet.</text>
+                </g>
+              </g>
 
-            </ul>
+              <!-- Station 3: Röstung -->
+              <g class="proc-step" data-step="2">
+                <g class="proc-node" transform="translate(56,288)">
+                  <circle class="proc-node-pulse" r="24" />
+                  <circle class="proc-node-ring" r="24" />
+                  <g class="icon-drum">
+                    <circle class="i-stroke" cy="-3" r="9.5" />
+                    <g class="drum-blades">
+                      <line class="i-stroke" x1="-9.5" y1="-3" x2="9.5" y2="-3" />
+                      <line class="i-stroke" x1="-9.5" y1="-3" x2="9.5" y2="-3" transform="rotate(60 0 -3)" />
+                      <line class="i-stroke" x1="-9.5" y1="-3" x2="9.5" y2="-3" transform="rotate(120 0 -3)" />
+                    </g>
+                    <path class="i-flame" d="M0 16 C -3.5 12.5, -2.5 9.5, 0 8 C 2.5 9.5, 3.5 12.5, 0 16 Z" />
+                  </g>
+                </g>
+                <g class="proc-label" transform="translate(104,288)">
+                  <text class="proc-phase" y="-20" data-i18n="proc3.phase">PHASE 03 · RÖSTUNG</text>
+                  <text class="proc-title" y="3" data-i18n="proc3.title">Trommelröstung bei 212 °C</text>
+                  <text class="proc-desc" y="23" data-i18n="proc3.d1">Kleine 12-kg-Chargen, schonend</text>
+                  <text class="proc-desc" y="39" data-i18n="proc3.d2">und temperaturgeführt geröstet.</text>
+                </g>
+              </g>
+
+              <!-- Station 4: Versand -->
+              <g class="proc-step" data-step="3">
+                <g class="proc-node" transform="translate(56,402)">
+                  <circle class="proc-node-pulse" r="24" />
+                  <circle class="proc-node-ring" r="24" />
+                  <g class="icon-cup">
+                    <path class="i-stroke" d="M-8 -1 H7 V6 a4.5 4.5 0 0 1 -4.5 4.5 h-6 A4.5 4.5 0 0 1 -8 6 Z" />
+                    <path class="i-stroke" d="M7 1 h2.5 a3.2 3.2 0 0 1 0 6.4 H7" />
+                    <path class="i-steam s1" d="M-4 -5 c -1.5 -2, 1.5 -3.5, 0 -6" />
+                    <path class="i-steam s2" d="M1.5 -5 c -1.5 -2, 1.5 -3.5, 0 -6" />
+                  </g>
+                </g>
+                <g class="proc-label" transform="translate(104,402)">
+                  <text class="proc-phase" y="-20" data-i18n="proc4.phase">PHASE 04 · VERSAND</text>
+                  <text class="proc-title" y="3" data-i18n="proc4.title">Frisch versiegelt</text>
+                  <text class="proc-desc" y="23" data-i18n="proc4.d1">Mit Aromaventil verpackt und</text>
+                  <text class="proc-desc" y="39" data-i18n="proc4.d2">innerhalb von 48 h geliefert.</text>
+                </g>
+              </g>
+
+            </svg>
           </div>
 
         </div>
-
       </div>
     </section>
 
     <!-- ─── ZUBEREITUNG (Brewing Dashboard) ────────── -->
     <section id="zubereitung" aria-labelledby="zubereitung-heading">
+      <div class="v-divider" data-reveal="line" aria-hidden="true"></div>
       <div class="section-inner">
-        <header class="section-header brew-dash-header" data-reveal>
-          <div>
-            <p class="brew-dash-eyebrow font-mono">// BREW_DASHBOARD</p>
-            <h2 id="zubereitung-heading" class="section-title">Zubereitung</h2>
-          </div>
-          <p class="brew-dash-status font-mono">
-            <span class="brew-status-dot" aria-hidden="true"></span>SYSTEM&nbsp;BEREIT · 3&nbsp;PROFILE
+        <header class="section-header section-header--center brew-dash-header">
+          <p class="eyebrow" data-reveal data-i18n="brew.eyebrow">Brew Guide</p>
+          <h2 id="zubereitung-heading" class="section-title" data-split data-i18n="brew.title">Zubereitung</h2>
+          <p class="brew-dash-status" data-reveal style="--reveal-delay: 120ms;">
+            <span class="brew-status-dot" aria-hidden="true"></span><span data-i18n="brew.status">3 Profile · fahre über ein Profil</span>
           </p>
         </header>
 
@@ -384,46 +451,43 @@
 
           <!-- Panel 01: Siebträger -->
           <article class="brew-panel" tabindex="0" data-reveal style="--ratio-pos: 14%; --brew-fill: 100%; --reveal-delay: 60ms;">
-            <span class="brew-index font-mono" aria-hidden="true">01</span>
+            <span class="brew-index" aria-hidden="true">01</span>
 
             <div class="brew-panel-id">
-              <span class="brew-method-type font-mono">ESPRESSO</span>
-              <h3 class="brew-method-title">Siebträger</h3>
-              <p class="brew-method-note font-mono">RATIO 1:2</p>
+              <span class="brew-method-type" data-i18n="brew.type.espresso">ESPRESSO</span>
+              <h3 class="brew-method-title" data-i18n="brew.method.portafilter">Siebträger</h3>
+              <p class="brew-method-note">Ratio 1:2</p>
             </div>
 
-            <dl class="brew-readout font-mono">
-              <div class="brew-cell"><dt>KAFFEE</dt><dd>18<span>g</span></dd></div>
-              <div class="brew-cell"><dt>WASSER</dt><dd>36<span>g</span></dd></div>
-              <div class="brew-cell"><dt>TEMP</dt><dd>93<span>°C</span></dd></div>
-              <div class="brew-cell"><dt>ZEIT</dt><dd>25<span>s</span></dd></div>
+            <dl class="brew-readout">
+              <div class="brew-cell"><dt data-i18n="brew.coffee">KAFFEE</dt><dd>18<span>g</span></dd></div>
+              <div class="brew-cell"><dt data-i18n="brew.water">WASSER</dt><dd>36<span>g</span></dd></div>
+              <div class="brew-cell"><dt data-i18n="brew.temp">TEMP</dt><dd>93<span>°C</span></dd></div>
+              <div class="brew-cell"><dt data-i18n="brew.time">ZEIT</dt><dd>25<span>s</span></dd></div>
             </dl>
 
             <div class="brew-graphics">
-              <div class="brew-spec-row font-mono">
-                <span>EXTRAKTIONSDRUCK: 9 BAR</span>
-                <span>MAHLGRAD: EXTRA FEIN</span>
+              <div class="brew-spec-row">
+                <span data-i18n="brew.spec1a">EXTRAKTIONSDRUCK: 9 BAR</span>
+                <span data-i18n="brew.spec1b">MAHLGRAD: EXTRA FEIN</span>
               </div>
 
-              <!-- Ratio-Skala -->
-              <div class="brew-ratio" aria-label="Verhältnis Kaffee zu Wasser 1:2">
-                <span class="brew-ratio-cap font-mono">KAFFEE</span>
+              <div class="brew-ratio" aria-label="Verhältnis Kaffee zu Wasser 1:2" data-i18n-attr="aria-label: brew.ratio1">
+                <span class="brew-ratio-cap" data-i18n="brew.coffee">KAFFEE</span>
                 <div class="brew-ratio-track"><span class="brew-ratio-dot"></span></div>
-                <span class="brew-ratio-cap font-mono">WASSER</span>
+                <span class="brew-ratio-cap" data-i18n="brew.water">WASSER</span>
               </div>
 
-              <!-- Extraktions-Profil -->
               <div class="brew-extraction" aria-hidden="true">
                 <div class="brew-bars">
                   <i style="--h:20%"></i><i style="--h:55%"></i><i style="--h:85%"></i><i style="--h:100%"></i><i style="--h:92%"></i><i style="--h:78%"></i><i style="--h:64%"></i><i style="--h:50%"></i><i style="--h:40%"></i><i style="--h:30%"></i><i style="--h:22%"></i><i style="--h:16%"></i>
                 </div>
-                <span class="brew-extraction-cap font-mono">EXTRAKTIONS-PROFIL</span>
+                <span class="brew-extraction-cap" data-i18n="brew.profile">EXTRAKTIONS-PROFIL</span>
               </div>
 
-              <!-- Brühzeit-Balken -->
               <div class="brew-time">
-                <div class="brew-time-head font-mono">
-                  <span>BRÜHZEIT</span><span class="brew-time-val">00:25</span>
+                <div class="brew-time-head">
+                  <span data-i18n="brew.brewTime">BRÜHZEIT</span><span class="brew-time-val">00:25</span>
                 </div>
                 <div class="brew-time-track"><span class="brew-time-fill"></span></div>
               </div>
@@ -432,43 +496,43 @@
 
           <!-- Panel 02: V60 Filter -->
           <article class="brew-panel" tabindex="0" data-reveal style="--ratio-pos: 84%; --brew-fill: 100%; --reveal-delay: 160ms;">
-            <span class="brew-index font-mono" aria-hidden="true">02</span>
+            <span class="brew-index" aria-hidden="true">02</span>
 
             <div class="brew-panel-id">
-              <span class="brew-method-type font-mono">FILTERKAFFEE</span>
+              <span class="brew-method-type" data-i18n="brew.type.filter">FILTERKAFFEE</span>
               <h3 class="brew-method-title">V60 Filter</h3>
-              <p class="brew-method-note font-mono">RATIO 1:16</p>
+              <p class="brew-method-note">Ratio 1:16</p>
             </div>
 
-            <dl class="brew-readout font-mono">
-              <div class="brew-cell"><dt>KAFFEE</dt><dd>15<span>g</span></dd></div>
-              <div class="brew-cell"><dt>WASSER</dt><dd>250<span>g</span></dd></div>
-              <div class="brew-cell"><dt>TEMP</dt><dd>94<span>°C</span></dd></div>
-              <div class="brew-cell"><dt>ZEIT</dt><dd>2:30<span>m</span></dd></div>
+            <dl class="brew-readout">
+              <div class="brew-cell"><dt data-i18n="brew.coffee">KAFFEE</dt><dd>15<span>g</span></dd></div>
+              <div class="brew-cell"><dt data-i18n="brew.water">WASSER</dt><dd>250<span>g</span></dd></div>
+              <div class="brew-cell"><dt data-i18n="brew.temp">TEMP</dt><dd>94<span>°C</span></dd></div>
+              <div class="brew-cell"><dt data-i18n="brew.time">ZEIT</dt><dd>2:30<span>m</span></dd></div>
             </dl>
 
             <div class="brew-graphics">
-              <div class="brew-spec-row font-mono">
-                <span>BLOOMING: 40 SEKUNDEN</span>
-                <span>MAHLGRAD: MEDIUM-FEIN</span>
+              <div class="brew-spec-row">
+                <span data-i18n="brew.spec2a">BLOOMING: 40 SEKUNDEN</span>
+                <span data-i18n="brew.spec2b">MAHLGRAD: MEDIUM-FEIN</span>
               </div>
 
-              <div class="brew-ratio" aria-label="Verhältnis Kaffee zu Wasser 1:16">
-                <span class="brew-ratio-cap font-mono">KAFFEE</span>
+              <div class="brew-ratio" aria-label="Verhältnis Kaffee zu Wasser 1:16" data-i18n-attr="aria-label: brew.ratio2">
+                <span class="brew-ratio-cap" data-i18n="brew.coffee">KAFFEE</span>
                 <div class="brew-ratio-track"><span class="brew-ratio-dot"></span></div>
-                <span class="brew-ratio-cap font-mono">WASSER</span>
+                <span class="brew-ratio-cap" data-i18n="brew.water">WASSER</span>
               </div>
 
               <div class="brew-extraction" aria-hidden="true">
                 <div class="brew-bars">
                   <i style="--h:15%"></i><i style="--h:30%"></i><i style="--h:48%"></i><i style="--h:66%"></i><i style="--h:80%"></i><i style="--h:92%"></i><i style="--h:100%"></i><i style="--h:90%"></i><i style="--h:74%"></i><i style="--h:55%"></i><i style="--h:38%"></i><i style="--h:24%"></i>
                 </div>
-                <span class="brew-extraction-cap font-mono">EXTRAKTIONS-PROFIL</span>
+                <span class="brew-extraction-cap" data-i18n="brew.profile">EXTRAKTIONS-PROFIL</span>
               </div>
 
               <div class="brew-time">
-                <div class="brew-time-head font-mono">
-                  <span>BRÜHZEIT</span><span class="brew-time-val">02:30</span>
+                <div class="brew-time-head">
+                  <span data-i18n="brew.brewTime">BRÜHZEIT</span><span class="brew-time-val">02:30</span>
                 </div>
                 <div class="brew-time-track"><span class="brew-time-fill"></span></div>
               </div>
@@ -477,43 +541,43 @@
 
           <!-- Panel 03: AeroPress -->
           <article class="brew-panel" tabindex="0" data-reveal style="--ratio-pos: 58%; --brew-fill: 100%; --reveal-delay: 260ms;">
-            <span class="brew-index font-mono" aria-hidden="true">03</span>
+            <span class="brew-index" aria-hidden="true">03</span>
 
             <div class="brew-panel-id">
-              <span class="brew-method-type font-mono">IMMERSION</span>
+              <span class="brew-method-type" data-i18n="brew.type.immersion">IMMERSION</span>
               <h3 class="brew-method-title">AeroPress</h3>
-              <p class="brew-method-note font-mono">RATIO 1:12</p>
+              <p class="brew-method-note">Ratio 1:12</p>
             </div>
 
-            <dl class="brew-readout font-mono">
-              <div class="brew-cell"><dt>KAFFEE</dt><dd>16<span>g</span></dd></div>
-              <div class="brew-cell"><dt>WASSER</dt><dd>200<span>g</span></dd></div>
-              <div class="brew-cell"><dt>TEMP</dt><dd>88<span>°C</span></dd></div>
-              <div class="brew-cell"><dt>ZEIT</dt><dd>2:00<span>m</span></dd></div>
+            <dl class="brew-readout">
+              <div class="brew-cell"><dt data-i18n="brew.coffee">KAFFEE</dt><dd>16<span>g</span></dd></div>
+              <div class="brew-cell"><dt data-i18n="brew.water">WASSER</dt><dd>200<span>g</span></dd></div>
+              <div class="brew-cell"><dt data-i18n="brew.temp">TEMP</dt><dd>88<span>°C</span></dd></div>
+              <div class="brew-cell"><dt data-i18n="brew.time">ZEIT</dt><dd>2:00<span>m</span></dd></div>
             </dl>
 
             <div class="brew-graphics">
-              <div class="brew-spec-row font-mono">
-                <span>IMMERSION: 90 SEKUNDEN</span>
-                <span>MAHLGRAD: MEDIUM</span>
+              <div class="brew-spec-row">
+                <span data-i18n="brew.spec3a">IMMERSION: 90 SEKUNDEN</span>
+                <span data-i18n="brew.spec3b">MAHLGRAD: MEDIUM</span>
               </div>
 
-              <div class="brew-ratio" aria-label="Verhältnis Kaffee zu Wasser 1:12">
-                <span class="brew-ratio-cap font-mono">KAFFEE</span>
+              <div class="brew-ratio" aria-label="Verhältnis Kaffee zu Wasser 1:12" data-i18n-attr="aria-label: brew.ratio3">
+                <span class="brew-ratio-cap" data-i18n="brew.coffee">KAFFEE</span>
                 <div class="brew-ratio-track"><span class="brew-ratio-dot"></span></div>
-                <span class="brew-ratio-cap font-mono">WASSER</span>
+                <span class="brew-ratio-cap" data-i18n="brew.water">WASSER</span>
               </div>
 
               <div class="brew-extraction" aria-hidden="true">
                 <div class="brew-bars">
                   <i style="--h:25%"></i><i style="--h:45%"></i><i style="--h:62%"></i><i style="--h:75%"></i><i style="--h:85%"></i><i style="--h:90%"></i><i style="--h:100%"></i><i style="--h:95%"></i><i style="--h:82%"></i><i style="--h:60%"></i><i style="--h:42%"></i><i style="--h:28%"></i>
                 </div>
-                <span class="brew-extraction-cap font-mono">EXTRAKTIONS-PROFIL</span>
+                <span class="brew-extraction-cap" data-i18n="brew.profile">EXTRAKTIONS-PROFIL</span>
               </div>
 
               <div class="brew-time">
-                <div class="brew-time-head font-mono">
-                  <span>BRÜHZEIT</span><span class="brew-time-val">02:00</span>
+                <div class="brew-time-head">
+                  <span data-i18n="brew.brewTime">BRÜHZEIT</span><span class="brew-time-val">02:00</span>
                 </div>
                 <div class="brew-time-track"><span class="brew-time-fill"></span></div>
               </div>
@@ -533,38 +597,41 @@
     <div class="footer-inner">
 
       <div class="newsletter-block" data-reveal>
-        <h2 class="newsletter-title">FRISCHE RÖSTUNGEN IN DEINEM POSTFACH</h2>
-        <p class="newsletter-sub">
+        <span class="logo-mark logo-mark--footer" aria-hidden="true"></span>
+        <h2 class="newsletter-title" data-i18n="newsletter.title">Frische Röstungen in deinem Postfach</h2>
+        <p class="newsletter-sub" data-i18n="newsletter.sub">
           Melde dich an, um exklusive Angebote und Benachrichtigungen über
           limitierte Chargen zu erhalten.
         </p>
-        <form id="newsletter-form" class="newsletter-form" novalidate aria-label="Newsletter anmelden">
-          <label for="newsletter-email" class="visually-hidden">Deine E-Mail-Adresse</label>
+        <form id="newsletter-form" class="newsletter-form" novalidate aria-label="Newsletter anmelden" data-i18n-attr="aria-label: newsletter.aria">
+          <label for="newsletter-email" class="visually-hidden" data-i18n="newsletter.email">Deine E-Mail-Adresse</label>
           <input
             id="newsletter-email"
             type="email"
             name="email"
             class="newsletter-input"
             placeholder="Deine E-Mail-Adresse"
+            data-i18n-attr="placeholder: newsletter.email"
             autocomplete="email"
             required
           />
-          <button id="newsletter-submit-btn" type="submit" class="btn btn--primary">
+          <button id="newsletter-submit-btn" type="submit" class="btn btn--primary" data-magnetic data-i18n="newsletter.submit">
             Abonnieren
           </button>
         </form>
-        <p id="newsletter-success" class="newsletter-success" role="status" aria-live="polite" hidden>
+        <p id="newsletter-success" class="newsletter-success" role="status" aria-live="polite" data-i18n="newsletter.success" hidden>
           ✓ Danke für deine Anmeldung!
         </p>
       </div>
 
       <div class="footer-bottom">
-        <p class="footer-copy">© 2026 ROAST - CAFÉ. Alle Rechte vorbehalten.</p>
-        <nav aria-label="Rechtliche Links">
+        <p class="footer-copy">Kaffeestraße 12 · 40210 Düsseldorf</p>
+        <p class="footer-copy">© 2026 ROAST – CAFÉ</p>
+        <nav aria-label="Rechtliche Links" data-i18n-attr="aria-label: footer.legal">
           <ul class="footer-links" role="list">
-            <li><button id="link-impressum"   class="footer-link-btn" data-legal="impressum">Impressum</button></li>
-            <li><button id="link-datenschutz" class="footer-link-btn" data-legal="datenschutz">Datenschutz</button></li>
-            <li><button id="link-agb"         class="footer-link-btn" data-legal="agb">AGB &amp; Widerruf</button></li>
+            <li><button id="link-impressum"   class="footer-link-btn" data-legal="impressum"   data-i18n="footer.imprint">Impressum</button></li>
+            <li><button id="link-datenschutz" class="footer-link-btn" data-legal="datenschutz" data-i18n="footer.privacy">Datenschutz</button></li>
+            <li><button id="link-agb"         class="footer-link-btn" data-legal="agb"         data-i18n="footer.terms">AGB &amp; Widerruf</button></li>
           </ul>
         </nav>
       </div>
@@ -586,28 +653,30 @@
     role="dialog"
     aria-modal="true"
     aria-label="Warenkorb"
+    data-i18n-attr="aria-label: cart.aria"
     aria-hidden="true"
   >
     <div class="cart-drawer-inner">
 
       <header class="cart-drawer-header">
-        <h2 id="cart-drawer-title" class="cart-drawer-title">DEIN EINKAUFSWAGEN</h2>
+        <h2 id="cart-drawer-title" class="cart-drawer-title" data-i18n="cart.title">Dein Einkaufswagen</h2>
         <button
           id="cart-close-btn"
           class="close-btn"
           aria-label="Warenkorb schließen"
+          data-i18n-attr="aria-label: cart.close"
         >✕</button>
       </header>
 
       <!-- Leerzustand -->
       <div id="cart-empty-state" class="cart-empty-state" hidden>
-        <p class="cart-empty-text">
+        <p class="cart-empty-text" data-i18n="cart.empty">
           Dein Warenkorb ist aktuell leer. Füge Kaffees aus unserer Kollektion hinzu.
         </p>
       </div>
 
       <!-- Artikel-Liste -->
-      <ul id="cart-items-list" class="cart-items-list" role="list" aria-label="Warenkorb-Artikel"></ul>
+      <ul id="cart-items-list" class="cart-items-list" role="list" aria-label="Warenkorb-Artikel" data-i18n-attr="aria-label: cart.items"></ul>
 
       <!-- Zusammenfassung -->
       <div id="cart-summary" class="cart-summary">
@@ -615,20 +684,20 @@
 
         <div class="cart-totals">
           <div class="cart-totals-row">
-            <span class="cart-totals-label">Zwischensumme:</span>
-            <span id="cart-subtotal" class="cart-totals-value font-mono">€ 0,00</span>
+            <span class="cart-totals-label" data-i18n="cart.subtotal">Zwischensumme:</span>
+            <span id="cart-subtotal" class="cart-totals-value">€ 0,00</span>
           </div>
           <div class="cart-totals-row">
-            <span class="cart-totals-label">Versand:</span>
-            <span id="cart-shipping-cost" class="cart-totals-value font-mono">4,90 €</span>
+            <span class="cart-totals-label" data-i18n="cart.shipping">Versand:</span>
+            <span id="cart-shipping-cost" class="cart-totals-value">4,90 €</span>
           </div>
           <div class="cart-totals-row cart-totals-row--total">
-            <span class="cart-totals-label">Gesamtsumme:</span>
-            <span id="cart-total" class="cart-totals-value font-mono">€ 4,90</span>
+            <span class="cart-totals-label" data-i18n="cart.total">Gesamtsumme:</span>
+            <span id="cart-total" class="cart-totals-value">€ 4,90</span>
           </div>
         </div>
 
-        <button id="checkout-open-btn" class="btn btn--primary btn--full">
+        <button id="checkout-open-btn" class="btn btn--primary btn--full" data-i18n="cart.checkout">
           Zur Kasse gehen
         </button>
       </div>
@@ -651,6 +720,7 @@
         id="product-modal-close-btn"
         class="close-btn close-btn--modal"
         aria-label="Produktdetails schließen"
+        data-i18n-attr="aria-label: modal.close"
       >✕</button>
 
       <div class="product-modal-layout">
@@ -670,52 +740,52 @@
           <p id="product-modal-origin" class="product-modal-origin"></p>
           <h2 id="product-modal-title" class="product-modal-title"></h2>
           <p id="product-modal-flavor" class="product-modal-flavor"></p>
-          <p id="product-modal-price" class="product-modal-price font-mono"></p>
+          <p id="product-modal-price" class="product-modal-price"></p>
           <p id="product-modal-description" class="product-modal-description"></p>
 
           <!-- Packungsgröße -->
           <div class="product-modal-option">
-            <label for="product-modal-size" class="option-label">Packungsgröße wählen:</label>
+            <label for="product-modal-size" class="option-label" data-i18n="modal.size">Packungsgröße wählen:</label>
             <select id="product-modal-size" class="option-select">
-              <option value="250">250g (Standard)</option>
-              <option value="500">500g (+ 95% Preis)</option>
-              <option value="1000">1000g (+ 180% Preis)</option>
+              <option value="250"  data-i18n="size.250">250g (Standard)</option>
+              <option value="500"  data-i18n="size.500">500g (+ 95% Preis)</option>
+              <option value="1000" data-i18n="size.1000">1000g (+ 180% Preis)</option>
             </select>
           </div>
 
           <!-- Mahlgrad -->
           <fieldset class="product-modal-option" id="product-modal-grind-group">
-            <legend class="option-label">Mahlgrad wählen:</legend>
+            <legend class="option-label" data-i18n="modal.grind">Mahlgrad wählen:</legend>
             <div class="grind-options">
               <label class="grind-option">
                 <input type="radio" name="grind" id="grind-ganze-bohne" value="ganze-bohne" checked />
-                <span>Ganze Bohne</span>
+                <span data-i18n="grind.ganze-bohne">Ganze Bohne</span>
               </label>
               <label class="grind-option">
                 <input type="radio" name="grind" id="grind-filter" value="filter" />
-                <span>Gemahlen (Filter)</span>
+                <span data-i18n="grind.filter">Gemahlen (Filter)</span>
               </label>
               <label class="grind-option">
                 <input type="radio" name="grind" id="grind-espresso" value="espresso" />
-                <span>Gemahlen (Espresso Siebträger)</span>
+                <span data-i18n="grind.espresso">Gemahlen (Espresso Siebträger)</span>
               </label>
             </div>
           </fieldset>
 
           <!-- Menge -->
           <div class="product-modal-option quantity-wrap">
-            <span class="option-label">Menge:</span>
-            <div class="quantity-control" role="group" aria-label="Menge anpassen">
-              <button id="product-modal-qty-minus" class="qty-btn" aria-label="Menge verringern">−</button>
+            <span class="option-label" data-i18n="modal.qty">Menge:</span>
+            <div class="quantity-control" role="group" aria-label="Menge anpassen" data-i18n-attr="aria-label: modal.qtyAria">
+              <button id="product-modal-qty-minus" class="qty-btn" aria-label="Menge verringern" data-i18n-attr="aria-label: cart.dec">−</button>
               <output id="product-modal-qty-display" class="qty-display" aria-live="polite">1</output>
-              <button id="product-modal-qty-plus"  class="qty-btn" aria-label="Menge erhöhen">+</button>
+              <button id="product-modal-qty-plus"  class="qty-btn" aria-label="Menge erhöhen" data-i18n-attr="aria-label: cart.inc">+</button>
             </div>
           </div>
 
-          <button id="product-modal-add-btn" class="btn btn--primary btn--full">
+          <button id="product-modal-add-btn" class="btn btn--primary btn--full" data-i18n="modal.add">
             In den Warenkorb legen
           </button>
-          <p id="product-modal-success" class="add-success" role="status" aria-live="polite" hidden>
+          <p id="product-modal-success" class="add-success" role="status" aria-live="polite" data-i18n="modal.added" hidden>
             ✓ Erfolgreich hinzugefügt!
           </p>
         </div>
@@ -739,84 +809,85 @@
         id="checkout-modal-close-btn"
         class="close-btn close-btn--modal"
         aria-label="Checkout schließen"
+        data-i18n-attr="aria-label: co.close"
       >✕</button>
 
       <!-- ── Checkout-Formular ── -->
-      <section id="checkout-form-section" aria-label="Bestellformular">
-        <h2 id="checkout-modal-title" class="checkout-title">SCHNELL-CHECKOUT</h2>
+      <section id="checkout-form-section" aria-label="Bestellformular" data-i18n-attr="aria-label: co.formAria">
+        <h2 id="checkout-modal-title" class="checkout-title" data-i18n="co.title">Schnell-Checkout</h2>
 
         <div class="checkout-layout">
 
           <!-- Spalte 1: Kontakt & Zahlung -->
           <div class="checkout-col checkout-col--form">
 
-            <h3 class="checkout-section-title">1. Kontakt &amp; Versandadresse</h3>
+            <h3 class="checkout-section-title" data-i18n="co.s1">1. Kontakt &amp; Versandadresse</h3>
             <form id="checkout-form" class="checkout-form" novalidate>
 
               <div class="form-group">
-                <label for="checkout-email" class="form-label">Email-Adresse<span aria-hidden="true">*</span></label>
-                <input id="checkout-email" type="email" name="email" class="form-input" placeholder="name@beispiel.de" autocomplete="email" required />
+                <label for="checkout-email" class="form-label" data-i18n="co.email">Email-Adresse<span aria-hidden="true">*</span></label>
+                <input id="checkout-email" type="email" name="email" class="form-input" placeholder="name@beispiel.de" data-i18n-attr="placeholder: co.ph.email" autocomplete="email" required />
                 <span id="checkout-email-error" class="form-error" role="alert" hidden></span>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="checkout-firstname" class="form-label">Vorname<span aria-hidden="true">*</span></label>
-                  <input id="checkout-firstname" type="text" name="firstname" class="form-input" placeholder="Max" autocomplete="given-name" required />
+                  <label for="checkout-firstname" class="form-label" data-i18n="co.firstname">Vorname<span aria-hidden="true">*</span></label>
+                  <input id="checkout-firstname" type="text" name="firstname" class="form-input" placeholder="Max" data-i18n-attr="placeholder: co.ph.firstname" autocomplete="given-name" required />
                 </div>
                 <div class="form-group">
-                  <label for="checkout-lastname" class="form-label">Nachname<span aria-hidden="true">*</span></label>
-                  <input id="checkout-lastname" type="text" name="lastname" class="form-input" placeholder="Mustermann" autocomplete="family-name" required />
+                  <label for="checkout-lastname" class="form-label" data-i18n="co.lastname">Nachname<span aria-hidden="true">*</span></label>
+                  <input id="checkout-lastname" type="text" name="lastname" class="form-input" placeholder="Mustermann" data-i18n-attr="placeholder: co.ph.lastname" autocomplete="family-name" required />
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="checkout-street" class="form-label">Straße und Hausnummer<span aria-hidden="true">*</span></label>
-                <input id="checkout-street" type="text" name="street" class="form-input" placeholder="Kaffeestraße 12" autocomplete="street-address" required />
+                <label for="checkout-street" class="form-label" data-i18n="co.street">Straße und Hausnummer<span aria-hidden="true">*</span></label>
+                <input id="checkout-street" type="text" name="street" class="form-input" placeholder="Kaffeestraße 12" data-i18n-attr="placeholder: co.ph.street" autocomplete="street-address" required />
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="checkout-zip" class="form-label">Postleitzahl<span aria-hidden="true">*</span></label>
+                  <label for="checkout-zip" class="form-label" data-i18n="co.zip">Postleitzahl<span aria-hidden="true">*</span></label>
                   <input id="checkout-zip" type="text" name="zip" class="form-input" placeholder="40210" autocomplete="postal-code" required />
                 </div>
                 <div class="form-group">
-                  <label for="checkout-city" class="form-label">Stadt<span aria-hidden="true">*</span></label>
+                  <label for="checkout-city" class="form-label" data-i18n="co.city">Stadt<span aria-hidden="true">*</span></label>
                   <input id="checkout-city" type="text" name="city" class="form-input" placeholder="Düsseldorf" autocomplete="address-level2" required />
                 </div>
               </div>
 
-              <h3 class="checkout-section-title">2. Zahlungsart</h3>
+              <h3 class="checkout-section-title" data-i18n="co.s2">2. Zahlungsart</h3>
 
-              <div id="payment-method-group" class="payment-methods" role="radiogroup" aria-label="Zahlungsart auswählen">
+              <div id="payment-method-group" class="payment-methods" role="radiogroup" aria-label="Zahlungsart auswählen" data-i18n-attr="aria-label: co.payAria">
                 <label class="payment-option">
                   <input type="radio" name="payment" id="payment-creditcard" value="creditcard" checked />
-                  <span>Kreditkarte</span>
+                  <span data-i18n="pay.card">Kreditkarte</span>
                 </label>
                 <label class="payment-option">
                   <input type="radio" name="payment" id="payment-paypal" value="paypal" />
-                  <span>PayPal</span>
+                  <span data-i18n="pay.paypal">PayPal</span>
                 </label>
                 <label class="payment-option">
                   <input type="radio" name="payment" id="payment-sofort" value="sofort" />
-                  <span>Sofortüberweisung</span>
+                  <span data-i18n="pay.sofort">Sofortüberweisung</span>
                 </label>
               </div>
 
               <!-- Kreditkarten-Felder -->
               <div id="creditcard-fields" class="creditcard-fields">
                 <div class="form-group">
-                  <label for="checkout-card-number" class="form-label">Kartennummer</label>
+                  <label for="checkout-card-number" class="form-label" data-i18n="co.cardNumber">Kartennummer</label>
                   <input id="checkout-card-number" type="text" name="card-number" class="form-input" placeholder="4111 2222 3333 4444" inputmode="numeric" autocomplete="cc-number" />
                   <span id="checkout-card-error" class="form-error" role="alert" hidden></span>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="checkout-card-expiry" class="form-label">Gültig bis</label>
-                    <input id="checkout-card-expiry" type="text" name="card-expiry" class="form-input" placeholder="MM/JJ" autocomplete="cc-exp" />
+                    <label for="checkout-card-expiry" class="form-label" data-i18n="co.expiry">Gültig bis</label>
+                    <input id="checkout-card-expiry" type="text" name="card-expiry" class="form-input" placeholder="MM/JJ" data-i18n-attr="placeholder: co.ph.expiry" autocomplete="cc-exp" />
                   </div>
                   <div class="form-group">
-                    <label for="checkout-card-cvc" class="form-label">CVC</label>
+                    <label for="checkout-card-cvc" class="form-label" data-i18n="co.cvc">CVC</label>
                     <input id="checkout-card-cvc" type="text" name="card-cvc" class="form-input" placeholder="123" autocomplete="cc-csc" inputmode="numeric" />
                   </div>
                 </div>
@@ -825,10 +896,10 @@
               <span id="checkout-general-error" class="form-error form-error--general" role="alert" hidden></span>
 
               <button id="checkout-submit-btn" type="submit" class="btn btn--primary btn--full checkout-submit-btn">
-                Jetzt zahlungspflichtig bestellen (<span id="checkout-total-display">0,00 €</span>)
+                <span data-i18n="co.submit">Jetzt zahlungspflichtig bestellen</span>&nbsp;(<span id="checkout-total-display">0,00 €</span>)
               </button>
 
-              <p class="checkout-security-hint">
+              <p class="checkout-security-hint" data-i18n="co.security">
                 🔒 Deine Verbindung ist SSL-verschlüsselt. Wir speichern keine Zahlungsdaten.
               </p>
 
@@ -836,17 +907,17 @@
           </div>
 
           <!-- Spalte 2: Bestellübersicht -->
-          <aside class="checkout-col checkout-col--summary" aria-label="Bestellübersicht">
-            <h3 class="checkout-section-title">3. Bestellübersicht</h3>
+          <aside class="checkout-col checkout-col--summary" aria-label="Bestellübersicht" data-i18n-attr="aria-label: co.summaryAria">
+            <h3 class="checkout-section-title" data-i18n="co.s3">3. Bestellübersicht</h3>
             <ul id="checkout-order-list" class="checkout-order-list" role="list"></ul>
             <div class="checkout-totals">
               <div class="checkout-totals-row">
-                <span>Versand:</span>
-                <span id="checkout-shipping-display" class="font-mono">4,90 €</span>
+                <span data-i18n="cart.shipping">Versand:</span>
+                <span id="checkout-shipping-display">4,90 €</span>
               </div>
               <div class="checkout-totals-row checkout-totals-row--total">
-                <span>Gesamtsumme:</span>
-                <span id="checkout-grand-total-display" class="font-mono">0,00 €</span>
+                <span data-i18n="cart.total">Gesamtsumme:</span>
+                <span id="checkout-grand-total-display">0,00 €</span>
               </div>
             </div>
           </aside>
@@ -855,18 +926,18 @@
       </section>
 
       <!-- ── Bestellbestätigung ── -->
-      <section id="order-confirmation" class="order-confirmation" aria-label="Bestellbestätigung" hidden>
+      <section id="order-confirmation" class="order-confirmation" aria-label="Bestellbestätigung" data-i18n-attr="aria-label: conf.aria" hidden>
         <div class="confirmation-inner">
           <div class="confirmation-icon" aria-hidden="true">✓</div>
-          <p class="confirmation-status">BESTELLUNG ERFOLGREICH</p>
-          <h2 class="confirmation-title">Vielen Dank für deine Bestellung bei ROAST – CAFÉ!</h2>
-          <p class="confirmation-order-label">Deine Bestellnummer lautet:</p>
-          <p id="confirmation-order-number" class="confirmation-order-number font-mono"></p>
-          <p class="confirmation-text">
+          <p class="confirmation-status" data-i18n="conf.status">Bestellung erfolgreich</p>
+          <h2 class="confirmation-title" data-i18n="conf.title">Vielen Dank für deine Bestellung bei ROAST – CAFÉ!</h2>
+          <p class="confirmation-order-label" data-i18n="conf.label">Deine Bestellnummer lautet:</p>
+          <p id="confirmation-order-number" class="confirmation-order-number"></p>
+          <p class="confirmation-text" data-i18n="conf.text">
             Wir bereiten deine Kaffees frisch für den Versand vor. Du erhältst in Kürze eine
             E-Mail mit deiner Sendungsverfolgungsnummer.
           </p>
-          <button id="confirmation-close-btn" class="btn btn--primary">
+          <button id="confirmation-close-btn" class="btn btn--primary" data-i18n="conf.back">
             Zurück zum Shop
           </button>
         </div>
@@ -875,6 +946,7 @@
     </div>
   </div>
 
+  <script src="i18n.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
